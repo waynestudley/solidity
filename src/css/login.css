@@ -1,0 +1,344 @@
+﻿@charset "utf-8";
+/* normalize.css v6.0.0 | MIT License | github.com/necolas/normalize.css */
+html {
+    line-height: 1.15;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+article, aside, footer, header, nav, section {
+    display: block;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+    font-weight: 600;
+}
+
+    h1 strong {
+        font-weight: 700;
+    }
+
+figcaption, figure, main {
+    display: block;
+}
+
+figure {
+    margin: 1em 40px;
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+}
+
+pre {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+a {
+    background-color: transparent;
+    text-decoration: none;
+}
+
+abbr[title] {
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration: underline dotted;
+}
+
+b, strong {
+    font-weight: 600;
+}
+
+code, kbd, samp {
+    font-family: monospace, monospace;
+    font-size: 1em;
+}
+
+dfn {
+    font-style: italic;
+}
+
+mark {
+    background-color: #ff0;
+    color: #000;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+audio, video {
+    display: inline-block;
+}
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+img {
+    border-style: none;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+form {
+    width: 100%;
+}
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+}
+
+button, input {
+    overflow: visible;
+}
+
+input:invalid {
+    box-shadow: none;
+}
+
+button, input[type="submit"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+
+button, select {
+    text-transform: none;
+}
+
+button, [type="reset"] {
+    -webkit-appearance: button;
+}
+html [type="button"] {
+    -webkit-appearance: none;
+}
+button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+}
+
+legend {
+    box-sizing: border-box;
+    color: inherit;
+    display: table;
+    max-width: 100%;
+    padding: 0;
+    white-space: normal;
+}
+
+progress {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+textarea {
+    overflow: auto;
+}
+
+[type="checkbox"], [type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+/* remove ipad/iphone inner shadow */
+input[type="text"], input[type="tel"], input[type="email"], input[type="search"], input[type="number"], input[type="password"] {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+}
+
+[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button {
+    height: auto;
+}
+
+[type="search"] {
+    -webkit-appearance: textfield;
+    outline-offset: -2px;
+}
+
+[type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+::-webkit-file-upload-button {
+    -webkit-appearance: button;
+    font: inherit;
+}
+
+details, menu {
+    display: block;
+}
+
+summary {
+    display: list-item;
+}
+
+canvas {
+    display: inline-block;
+}
+
+template {
+    display: none;
+}
+
+[hidden] {
+    display: none;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: none;
+}
+/* END normalize.css v6.0.0 | MIT License | github.com/necolas/normalize.css */
+
+/*shared body/header/login styles*/
+body, html {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #f4faff;
+    color: #1c2833;
+    font-size: calc(14px + .23vw); /* Responsive base font size (was fixed at 16px!) */
+    line-height: 1.4;
+    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica Neue',sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.App {
+    position: relative;
+    min-height: 100vh;
+    background: #f4faff;
+    flex: 1 1;
+}
+#headerContainer header.wrapper {
+    width: 100%;
+    height: 90px;
+    max-width: 1174px;
+    margin: 0 auto;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+#headerContainer.header-container {
+    background: #203a54;
+    background-image: none;
+    border-bottom: 2px solid #f1c40f;
+}
+#headerContainer.header-container header {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+/*.header-container header .contact,*/
+#headerContainer.header-container header .shared-logo {
+    flex: 0 1 auto;
+    margin: 0 auto;
+}
+.header-container.secondary header .contact,
+.header-container.secondary header .shared-logo {
+    flex: 0 1 auto;
+    margin: 0;
+}
+.header-container header .contact .phone span {
+    font-size: 12px;
+    line-height: 1.2;
+    text-align: center;
+    display: block;
+}
+.header-container header .contact .phone {
+    text-align: center;
+    color: #fff;
+}
+.header-container header .contact .phone span.phone-number {
+    font-size: 1.3rem;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+/*Login page */
+.login-wrapper {
+    padding: 15px;
+    width: auto;
+    max-width: 500px;
+    margin: 100px auto;
+    border: 4px solid #D0D8DA;
+    border-radius: 4px;
+    background: white;
+}
+.login-wrapper h2 {
+    color: #024287;
+    font-size: 1.5rem;
+    font-weight: 300;
+    font-family: 'Montserrat',-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica Neue',sans-serif;
+    margin: 0 0 1rem;
+}
+.login-wrapper p {
+    line-height: 1.4;
+    margin: 1rem 0;
+}
+.login-wrapper input {
+    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica,Arial,'Helvetica Neue',sans-serif;
+    font-weight: 400;
+    background: white;
+    border: 4px solid #D0D8DA;
+    border-radius: 4px;
+    padding: 14px;
+    font-size: 1.125rem;
+    width: 100%;
+    text-align: left;
+    -webkit-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
+}
+.login-wrapper input:hover {
+    border: 4px solid #ABB1B3;
+}
+.login-wrapper input:focus {
+    border: 4px solid #F1C40F;
+}
+
+/*Small tablets - may need some Toby love!*/
+@media (min-width: 581px) and (max-width: 767px) {
+    header.wrapper {
+        height: 70px;
+    }
+    header .shared-logo {
+        max-height: 50px;
+    }
+    .header-container.secondary header .contact p {
+        margin: 0;
+    }
+}
+
