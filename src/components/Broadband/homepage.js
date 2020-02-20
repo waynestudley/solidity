@@ -29,6 +29,11 @@ class Homepage extends Component {
     }
 
     componentDidMount() {
+        // Clear the customer information from db
+        db.customer.clear();
+        db.customerServices.clear();
+        db.package.clear();
+
         let thisSource = ''
         if(this.props.globalState.isBt) {
             thisSource = 'BT'
