@@ -103,9 +103,6 @@ class Result extends Component {
     
 
     getQuote() {
-      console.log("---",this.state.CurrentMonthlyPay)
-      console.log("---",this.state)
-      console.log("getQuote1")
       let thisSource = ''
       if(this.props.globalState.isBtJourney) {
           thisSource = 'BT'
@@ -143,7 +140,6 @@ class Result extends Component {
         "speed": this.props.globalState.isBtJourney ? parseInt(this.props.globalState.btSpeed.replace('up to ', '').replace('Mbps',''))  : 0
       })
       .then(response => {
-        //console.log(JSON.stringify(response.data.bestPackage.TotalSavings))
           var dataArray = response.data.reverse();
           this.setState({ fulldata: response.data });
           this.setState({ data: dataArray });
@@ -200,7 +196,6 @@ class Result extends Component {
     }
 
     reset = () => {
-      console.log("getQuote2")
         this.setState({ 'resetClicked': true });
         this.setState({ 'withoutTv': true });
         this.setState({ 'withTv': true });

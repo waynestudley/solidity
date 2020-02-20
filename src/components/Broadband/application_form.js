@@ -22,6 +22,7 @@ class ApplicationForm extends Component {
             data: '',
             media_provider: '',
             Postcode: '',
+            Address1: null,
             CurrentProviderId: '',
             CurrentProviderMonths: '',
             Broadband: '',
@@ -164,6 +165,7 @@ class ApplicationForm extends Component {
     }
 
     render() {
+        console.dir(this.state);
         return (
             <div>
                 <SecondaryHeader />
@@ -181,6 +183,7 @@ class ApplicationForm extends Component {
                         accountNumber: ''
                     }}
                     validate={values => {
+                        console.table(values);
                         const errors = {};
                         if (!values.title) errors.title = 'Required';
                         if (!values.firstName) errors.firstName = 'Required';
@@ -206,6 +209,7 @@ class ApplicationForm extends Component {
 
                     onSubmit={(values) => {
                         this.trim();
+                        console.log(this.props.globalState.isBtJourney, values.address, values.firstName)
                         if (!this.props.globalState.isBtJourney) {
                             this.setState({ isSubmitted: true });
                             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
@@ -217,7 +221,7 @@ class ApplicationForm extends Component {
                                             "Title": values.title,
                                             "Firstname": values.firstName,
                                             "Surname": values.surName,
-                                            "Address1": values.address,
+                                            "Address1": this.state.Address1,
                                             "Postcode": this.state.Postcode,
                                             "HomePhone": values.phone,
                                             "Email": values.email,

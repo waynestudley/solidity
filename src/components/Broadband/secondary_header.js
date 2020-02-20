@@ -18,23 +18,15 @@ class SecondaryHeader extends Component {
     }
 
     Logout(e) {
-        this.clearKeysWithPrefix("Login");
         window.location = "/";
     }
 
-    clearKeysWithPrefix(prefix) {
-        var removeKeys = [];
-        for (var i = 0; i < localStorage.length; i++) {
-            var keyName = localStorage.key(i);
-            if (keyName.startsWith(prefix)) {
-                removeKeys.push(keyName);
-            }
-        }
-        for (var n = 0; n < removeKeys.length; n++) {
-            localStorage.removeItem(removeKeys[n]);
+    componentDidMount() {
+        if (performance.navigation.type == 1) {
+            window.location = "/";
         }
     }
-
+    
     render() {
         return (
             <div>
@@ -69,8 +61,6 @@ class SecondaryHeader extends Component {
                         {!this.props.globalState.isWeb && !this.props.globalState.isBtJourney &&
                             <img src={this.LogoPath + '/imagesPackage/mex-logo.png'} alt='Logo' className='logoMain'/>
                         }
-
-
 
                         {(this.props.globalState.journeyTheme==='mex' || this.props.globalState.journeyTheme==='multi') && this.props.globalState.isWeb &&
                             <img src={this.LogoPath + '/imagesPackage/mex-logo.png'} alt='Logo' className='logoMain'/>
