@@ -212,9 +212,9 @@ console.log("1",id.Postcode)
                                         )} 
                                         <div className={'address_wrapper raised-bordered'}>
                                             { this.state.postcodeList && 
-                                            this.state.postcodeList.map((address) => (
+                                            this.state.postcodeList.map((address, index) => (
                                                 <p
-                                                    key={address.Id}
+                                                    key={'addressId' + index}
                                                     onClick={() => this.selectAddress(address)}
                                                     className={`lookup_data ${this.props.globalState.isBt && address.Speed ? 'active' : ''}`}
                                                 >
