@@ -122,7 +122,7 @@ class ThankYou extends Component {
                                 <p>Your Broadband application reference is: <strong>{this.state.Reference}</strong></p>
                             </div>
                         }
-                        { !this.props.globalState.isWeb &&
+                        { !this.props.globalState.isWeb && !this.props.globalState.isMultiJourney && 
                             <div>
                                 <p>Your Broadband application reference is: <strong>{this.state.Reference}</strong></p>
                             </div>

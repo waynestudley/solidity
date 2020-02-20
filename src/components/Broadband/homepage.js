@@ -28,7 +28,7 @@ class Homepage extends Component {
 
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let thisSource = ''
         if(this.props.globalState.isBt) {
             thisSource = 'BT'

@@ -179,6 +179,16 @@ class PackageSummary extends Component {
             );
         });
 
+        var contButtonText;
+        var contLink
+        if (this.props.globalState.isMultiJourney) {
+            contButtonText = "Submit Application"
+            contLink = "/thank_you"
+        } else {
+            contButtonText = "Continue"
+            contLink = "/application_form"
+        }
+
         return (
             <div>
                 <SecondaryHeader />
@@ -237,17 +247,18 @@ class PackageSummary extends Component {
 
                     <div className='multi-button-wrapper'>
                     { !this.props.globalState.isBtJourney && 
-                        <a className='url-checker' href={this.state.checker_url.length > 0 ? this.state.checker_url : ''}>{this.state.media_provider.ProviderName} Check for availability</a>
+                        <a className='url-checker' target='_blank' href={this.state.checker_url.length > 0 ? this.state.checker_url : ''}>{this.state.media_provider.ProviderName} Check for availability</a>
                     }
+                    
 
-                    {this.props.globalState.isMultiJourney &&
-                        <Link to={{ pathname: '/thank_you', state: { passed_ID: this.state.passed_id } }} className='link-btn'>Submit Application</Link>
+                    {!this.state.summaryLoaded && this.props.globalState.isMultiJourney
+                        ? <ClipLoader loading={this.state.isSubmitted} size={1.35} sizeUnit='rem' color='#203a54'/> 
+                    : <Link to={contLink} className='link-btn'>{contButtonText}</Link>
                     }
-                    {!this.state.summaryLoaded
-                        ? <ClipLoader loading={this.state.isSubmitted} size={1.35} sizeUnit='rem' color='#203a54'
-                    /> 
+                    {/* {!this.state.summaryLoaded && !this.props.globalState.isMultiJourney
+                        ? <ClipLoader loading={this.state.isSubmitted} size={1.35} sizeUnit='rem' color='#203a54'/> 
                         : <Link to={{ pathname: '/application_form', state: { passed_ID: this.state.passed_id } }} className='link-btn'>Continue</Link>
-                    }
+                    } */}
                     </div>
 
                 </div>
