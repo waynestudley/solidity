@@ -90,12 +90,7 @@ class Result extends Component {
             Aerial: customerServices.hasAerial,
             CanHaveVirgin: customerServices.canHaveVirgin
           })
-          
-          // var delayInMilliseconds = 1000
-          //   setTimeout(() => {
-              
-              this.getQuote()
-            // }, delayInMilliseconds);
+          this.getQuote()
         })
       
 
@@ -105,14 +100,15 @@ class Result extends Component {
     getQuote() {
       let thisSource = ''
       if(this.props.globalState.isBtJourney) {
+        this.setState({
+          Aerial: false,
+          CanHaveVirgin: false
+        })
           thisSource = 'BT'
       } else if (this.props.globalState.isWeb) {
           thisSource = 'WS'
       } else {
-        this.setState({
-          Aerial: true,
-          CanHaveVirgin: true
-        })
+        
         thisSource = 'CC'
       }
 
