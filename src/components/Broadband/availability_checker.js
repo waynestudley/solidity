@@ -96,8 +96,7 @@ class Availability_Checker extends Component {
             hubs: false
         });
 
-        
-
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/GetProviderList')
         .then(response => {
             this.setState({
@@ -967,7 +966,7 @@ class Availability_Checker extends Component {
                                     netflixCheck: this.state.netflixCheck,
                                     primeCheck: this.state.primeCheck,
                                     nowCheck: this.state.nowCheck,
-                                    currentMonthlyPayment: values.payment,
+                                    CurrentMonthlyPayment: values.payment,
                                     numDevicesHighUse: this.state.NumDevicesHighUse,
                                     numDevicesMediumUse: this.state.NumDevicesMediumUse,
                                     numDevicesLowUse: this.state.NumDevicesLowUse

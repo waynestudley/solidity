@@ -119,6 +119,7 @@ class Result extends Component {
         thisSource = 'CC'
       }
 
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
       axios.post(process.env.REACT_APP_API + 'Media/Quote', {
         "Postcode": this.state.Postcode,
         "CurrentProviderId": this.state.CurrentProviderId,
@@ -212,6 +213,7 @@ class Result extends Component {
         } else {
             thisSource = 'CC'
         }
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/Quote',
             {
                 "Postcode": this.state.Postcode,

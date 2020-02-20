@@ -107,6 +107,7 @@ class ApplicationForm extends Component {
             })
             thisSource = 'CC'
         }
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/Quote', {
             "Postcode": this.state.Postcode,
             "CurrentProviderId": this.state.CurrentProviderId,
@@ -207,6 +208,7 @@ class ApplicationForm extends Component {
                         this.trim();
                         if (!this.props.globalState.isBtJourney) {
                             this.setState({ isSubmitted: true });
+                            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
                             axios.post(process.env.REACT_APP_API + 'Validation/ValidateBankAccount?AllowTest=true&accountNumber=' + values.accountNumber.toString() + '&accountSortCode=' + values.sortcode.toString())
                                 .then(response => {
                                     if (response.data.Result === "True") {
