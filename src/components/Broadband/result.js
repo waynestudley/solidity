@@ -306,7 +306,7 @@ class Result extends Component {
         if (item.SetupFeeDescription !== null) {
             return item.SetupFeeDescription;
         } else if (item.SetupFee === null || item.SetupFee === "") {
-            return "&nbsp;";
+            return " ";
         } else {
             return "Upfront fees: £" + item.SetupFee;
         }

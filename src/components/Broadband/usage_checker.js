@@ -290,12 +290,12 @@ class Usage_Checker extends Component {
               </div>
             </div>
           )}
-          <Link
+          <button
             onClick={this.validateStep}
             className="link-btn"
           >
             Continue
-          </Link>
+          </button>
         </div>
         {this.props.globalState.isBtJourney && <Outcome />}
       </div>
