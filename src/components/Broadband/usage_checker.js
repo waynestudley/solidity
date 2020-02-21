@@ -70,9 +70,8 @@ class Usage_Checker extends Component {
     ) {
       this.setState({ errorMessage: "Select at least one package" });
     } else {
-
       db.open().then(async () => {
-        await db.customerServices.update(1, { 
+        await db.usage.put({ 
           broadbandCheck: this.state.broadbandCheck,
           phoneCheck: this.state.phoneCheck,
           smartCheck: this.state.smartCheck,
