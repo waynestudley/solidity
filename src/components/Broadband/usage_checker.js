@@ -82,7 +82,7 @@ class Usage_Checker extends Component {
           primeCheck: this.state.primeCheck,
           nowCheck: this.state.nowCheck,
         }).then(() => {
-          console.log(">>> BB ",this.state.broadbandCheck + " - phone" + this.state.phoneCheck + " - smart" + this.state.smartCheck + " - ent" + this.state.entertainmentCheck  + " - sports" + this.state.sportsCheck + " - movies" + this.state.moviesCheck + " - netflix" + this.state.netflixCheck + " - now" + this.state.nowCheck + " - prime" + this.state.primeCheck)
+          //console.log(">>> BB ",this.state.broadbandCheck + " - phone" + this.state.phoneCheck + " - smart" + this.state.smartCheck + " - ent" + this.state.entertainmentCheck  + " - sports" + this.state.sportsCheck + " - movies" + this.state.moviesCheck + " - netflix" + this.state.netflixCheck + " - now" + this.state.nowCheck + " - prime" + this.state.primeCheck)
           this.props.history.push("/device_checker");
         })
       })
