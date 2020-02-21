@@ -42,7 +42,7 @@ class Outcome extends Component {
                 "Source": 'BT'
             })
             .then(response => { 
-                console.log(":= ", response.data, localStorage.getItem('sales_agent_id'))
+                //console.log(":= ", response.data, localStorage.getItem('sales_agent_id'))
                 this.setState({ isSubmitted: false })
                 window.location.hash = "/start"
             })

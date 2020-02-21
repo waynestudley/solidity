@@ -30,7 +30,7 @@ const FormikForm = () => (
             }}
 
             onSubmit={(values, { setSubmitting }) => {
-                console.log("Submitted Values:", values);
+                //console.log("Submitted Values:", values);
                 setTimeout(() => setSubmitting(false), 3 * 1000);
             }}
         >
