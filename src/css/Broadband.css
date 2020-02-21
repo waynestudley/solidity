@@ -79,7 +79,7 @@
     border-left-color: #516981;
 }
 a.agent-home {
-    padding: 4px 8px 4px 32px;
+    padding: 4px 2px 4px 32px;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjIwMC40NjkgNDE5Ljc3NyAyMC4wMDEgMTcuNzIyIj48cGF0aCBmaWxsPSIjRjFDNDBGIiBkPSJNMjAzLjE4OCA0MjkuMzA2bDcuMzg0LTYuMTg4IDYuOTU1IDYuMTg4djcuNjE2cy4wMjYuNTU4LS41MjkuNTU4aC00LjkzNGwuMDA3LTQuMTE5cy4wNDktLjY4Mi0uNzMyLS42ODJoLTIuMDkyYy0uNjYxIDAtLjU5LjY4Mi0uNTkuNjgybC0uMDA3IDQuMTMxcy00LjUuMDA3LTUuMDQyLjAwN2MtLjQzOCAwLS40Mi0uNDQ3LS40Mi0uNDQ3di03Ljc0NnptLTIuNzE5LS41NzVzLjYyNiAxLjE1NSAxLjk5NCAwbDguMTctNi45MTIgNy42NjEgNi44NjhjMS41ODMgMS4xNDMgMi4xNzYgMCAyLjE3NiAwbC05LjgzNy04LjkxLTEwLjE2NCA4Ljk1NHptMTcuNjM5LTYuOTI5aC0xLjk3MWwuMDEgMi4zOSAxLjk2MSAxLjY2NnYtNC4wNTZ6Ii8+PC9zdmc+);
     background-repeat: no-repeat;
     background-size: 18px 20px;
