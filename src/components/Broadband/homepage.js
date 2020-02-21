@@ -67,9 +67,7 @@ class Homepage extends Component {
                 }))
             })
         }
-    }
-
-    
+    }    
 
     selectPostcode(pc) {
         this.setState({ address: pc })
@@ -87,7 +85,8 @@ class Homepage extends Component {
                 isBtJourney: false
             }))
         }
-console.log("1",id.Postcode)
+
+        //console.log("1",id.Postcode)
 
         db.open().then(async () => {
             await db.customer.put({
@@ -130,7 +129,7 @@ console.log("1",id.Postcode)
             if (response.status === 200 && !response.data['ErrorCode'] && response.data.length > 1) {
                 this.setState({ postcodeList: response.data })
             } else {
-                console.log("failed")
+                console.log("lookupPostcode : failed")
             }
         } catch (error) {
             console.error(error)
@@ -208,9 +207,7 @@ console.log("1",id.Postcode)
                                             }}
                                             onKeyPress={e => { if (e.key === 'Enter') e.preventDefault()}}
                                         />
-
-                                        
-
+                                      
 
                                         {errors.postcode && touched.postcode && (
                                             <div className="validation_text">{errors.postcode}</div>

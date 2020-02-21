@@ -214,6 +214,7 @@ class Result extends Component {
         } else {
             thisSource = 'CC'
         }
+
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/Quote',
             {
@@ -319,7 +320,7 @@ class Result extends Component {
     };
 
     render() {
-
+      console.log('render results');
         if (this.state.data.length === 0) {
             return (
                 <div>
@@ -442,7 +443,7 @@ class Result extends Component {
                     </a>
                   </div>
                   <div className="provider-info">
-                    {item.MediaProvider.ProviderName == "Virgin Media"
+                    {item.MediaProvider.ProviderName === "Virgin Media"
                       ? item.MediaProvider.ProviderInfo
                       : ""}
                   </div>

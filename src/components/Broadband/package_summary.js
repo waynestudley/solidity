@@ -248,7 +248,7 @@ class PackageSummary extends Component {
                     <div className='multi-button-wrapper'>
 
                     { !this.props.globalState.isBtJourney && this.state.checker_url.length > 0 &&
-                        <a className='url-checker' target='_blank' href={this.state.checker_url}>{this.state.media_provider.ProviderName} Check for availability</a>
+                        <a className='url-checker' target='_blank' rel="noopener noreferrer" href={this.state.checker_url}>{this.state.media_provider.ProviderName} Check for availability</a>
                     }
 
                     {/* !this.props.globalState.isBtJourney && 
