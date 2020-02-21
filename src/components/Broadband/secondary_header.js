@@ -22,7 +22,7 @@ class SecondaryHeader extends Component {
     }
 
     componentDidMount() {
-        if (performance.navigation.type == 1) {
+        if (performance.navigation.type === 1) {
             window.location = "/";
         }
     }

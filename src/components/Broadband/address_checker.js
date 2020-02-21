@@ -5,7 +5,7 @@ class Address_Checker extends Component {
 
     render() {
 
-        console.log('address chacker address:', localStorage.getItem('address'))
+        //console.log('address chacker address:', localStorage.getItem('address'))
         return (
             <div className='feature-wrapper'>
                 <p>Address checker placeholder</p>

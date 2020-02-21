@@ -76,6 +76,12 @@ class Result extends Component {
             currentPay = await db.currentPay.toArray()
             currentPay = currentPay[0]
         }).then(() => {
+          //console.log('Results')
+          //console.dir('customer',customer)
+          //console.dir('customerServices',customerServices)
+          //console.dir('usage',usage)
+          //console.dir('devices',devices)
+          //console.dir('currentPay',currentPay)
           this.setState({
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
@@ -102,7 +108,6 @@ class Result extends Component {
 
     }
     
-
     getQuote() {
       let thisSource = ''
       if(this.props.globalState.isBtJourney) {
@@ -146,11 +151,15 @@ class Result extends Component {
           this.setState({ fulldata: response.data });
           this.setState({ data: dataArray });
           this.setState({ bestPackage: response.data.slice(-1)[0] });
-          this.setState({ bestPackageProvider: this.state.bestPackage.MediaProvider });
-          this.setState({ bestPackageId: this.state.bestPackage.Id });
+          if(this.state.bestPackage !== undefined){
+            this.setState({ bestPackageProvider: this.state.bestPackage.MediaProvider });
+            this.setState({ bestPackageId: this.state.bestPackage.Id });
+          }
           this.setState({ fullPackage: response.data[0] });
-          this.setState({ fullPackageProvider: this.state.fullPackage.MediaProvider });
-          this.setState({ fullyLoadedPackageId: this.state.fullPackage.Id });
+          if(this.state.fullPackage !== undefined){
+            this.setState({ fullPackageProvider: this.state.fullPackage.MediaProvider });
+            this.setState({ fullyLoadedPackageId: this.state.fullPackage.Id });
+          }
           this.setState({ LoadingPackages: false });
       })
       .catch(err => {
@@ -210,6 +219,7 @@ class Result extends Component {
         } else {
             thisSource = 'CC'
         }
+
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/Quote',
             {
@@ -315,7 +325,7 @@ class Result extends Component {
     };
 
     render() {
-
+      //console.log('render results');
         if (this.state.data.length === 0) {
             return (
                 <div>
@@ -438,7 +448,7 @@ class Result extends Component {
                     </a>
                   </div>
                   <div className="provider-info">
-                    {item.MediaProvider.ProviderName == "Virgin Media"
+                    {item.MediaProvider.ProviderName === "Virgin Media"
                       ? item.MediaProvider.ProviderInfo
                       : ""}
                   </div>
