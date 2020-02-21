@@ -146,11 +146,15 @@ class Result extends Component {
           this.setState({ fulldata: response.data });
           this.setState({ data: dataArray });
           this.setState({ bestPackage: response.data.slice(-1)[0] });
-          this.setState({ bestPackageProvider: this.state.bestPackage.MediaProvider });
-          this.setState({ bestPackageId: this.state.bestPackage.Id });
+          if(this.state.bestPackage !== undefined){
+            this.setState({ bestPackageProvider: this.state.bestPackage.MediaProvider });
+            this.setState({ bestPackageId: this.state.bestPackage.Id });
+          }
           this.setState({ fullPackage: response.data[0] });
-          this.setState({ fullPackageProvider: this.state.fullPackage.MediaProvider });
-          this.setState({ fullyLoadedPackageId: this.state.fullPackage.Id });
+          if(this.state.fullPackage !== undefined){
+            this.setState({ fullPackageProvider: this.state.fullPackage.MediaProvider });
+            this.setState({ fullyLoadedPackageId: this.state.fullPackage.Id });
+          }
           this.setState({ LoadingPackages: false });
       })
       .catch(err => {

@@ -246,10 +246,14 @@ class PackageSummary extends Component {
                     </div>
 
                     <div className='multi-button-wrapper'>
-                    { !this.props.globalState.isBtJourney && 
-                        <a className='url-checker' target='_blank' href={this.state.checker_url.length > 0 ? this.state.checker_url : ''}>{this.state.media_provider.ProviderName} Check for availability</a>
+
+                    { !this.props.globalState.isBtJourney && this.state.checker_url.length > 0 &&
+                        <a className='url-checker' target='_blank' href={this.state.checker_url}>{this.state.media_provider.ProviderName} Check for availability</a>
                     }
-                    
+
+                    {/* !this.props.globalState.isBtJourney && 
+                        <a className='url-checker' target='_blank' href={this.state.checker_url.length > 0 ? this.state.checker_url : ''}>{this.state.media_provider.ProviderName} Check for availability</a>
+                    */}
 
                     {!this.state.summaryLoaded && this.props.globalState.isMultiJourney
                         ? <ClipLoader loading={this.state.isSubmitted} size={1.35} sizeUnit='rem' color='#203a54'/> 
