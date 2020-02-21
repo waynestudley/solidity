@@ -90,7 +90,7 @@ class Usage_Checker extends Component {
   };
 
   render() {
-
+    //console.log('usage_checker render');
     return (
       <div>
         {this.props.globalState.isMultiJourney === false && (

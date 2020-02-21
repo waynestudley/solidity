@@ -82,7 +82,7 @@ class ThankYou extends Component {
             })
             .then(response => {
                 this.setState({ Reference: response.data.Result });
-                console.log("Multi journey complete")
+                //console.log("Multi journey complete")
             })
         }
         // If a BT journey - auto submit the outcome
@@ -100,7 +100,7 @@ class ThankYou extends Component {
                 "LeadLogId": this.state.Reference
             })
             .then(response => {
-                console.log(":: ", response.data, this.state.SalesAgentId)
+                //console.log(":: ", response.data, this.state.SalesAgentId)
             })
         }
     }

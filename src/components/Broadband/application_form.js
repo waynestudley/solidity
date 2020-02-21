@@ -12,7 +12,6 @@ import Outcome from './outcome'
 import ClipLoader from 'react-spinners/ClipLoader'
 import db from "./broadbandDatabase"
 
-
 class ApplicationForm extends Component {
     constructor(props) {
         super(props);
@@ -165,7 +164,7 @@ class ApplicationForm extends Component {
     }
 
     render() {
-        console.dir(this.state);
+        //console.dir(this.state);
         return (
             <div>
                 <SecondaryHeader />
@@ -183,7 +182,7 @@ class ApplicationForm extends Component {
                         accountNumber: ''
                     }}
                     validate={values => {
-                        console.table(values);
+                        //console.table(values);
                         const errors = {};
                         if (!values.title) errors.title = 'Required';
                         if (!values.firstName) errors.firstName = 'Required';
@@ -209,7 +208,7 @@ class ApplicationForm extends Component {
 
                     onSubmit={(values) => {
                         this.trim();
-                        console.log(this.props.globalState.isBtJourney, values.address, values.firstName)
+                       // console.log(this.props.globalState.isBtJourney, values.address, values.firstName)
                         if (!this.props.globalState.isBtJourney) {
                             this.setState({ isSubmitted: true });
                             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth

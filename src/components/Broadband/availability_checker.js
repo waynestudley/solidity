@@ -65,7 +65,13 @@ class Availability_Checker extends Component {
         };
     }
 
+    componentWillUnmount(){
+        console.log('AC : unmount');
+    }
+
     componentDidMount() {
+        console.log('AC : Mount');
+
         db.customerServices.clear();
         db.usage.clear();
         db.currentPay.clear();
@@ -311,8 +317,7 @@ class Availability_Checker extends Component {
                                     hasAerial: values.aerial,
                                     canHaveVirgin: values.canHaveVirgin,
                                     providerId: values.providerId
-                                })
-                                
+                                })                                
                             
                                 // REMOVE FROM BT JOURNEY IF CURRENTLY A BT USER
                                 if(parseInt(values.providerId) === 1110) {
@@ -322,6 +327,7 @@ class Availability_Checker extends Component {
                                 }
                                 if (this.props.globalState.isMultiJourney) {
                                     this.setState({ formStep1: true })
+                                    console.log('save step1 to db')
                                 } else {
                                     
                                     db.open().then(async () => {
@@ -954,6 +960,64 @@ class Availability_Checker extends Component {
                             payment: this.state.payment
                         }}
                         onSubmit={(values) => {
+                            console.log('update all form parts')
+                            
+                           //availability checker
+
+                             db.open().then(async () => {
+                                await db.customerServices.put({ 
+                                    years: this.state.years,
+                                    months: this.state.months,
+                                    total: this.state.totalMonths,
+                                    provider: this.state.providerId,
+                                    hasAerial: this.props.globalState.isBtJourney ? false : this.state.hasAerial,
+                                    canHaveVirgin: this.props.globalState.isBtJourney ? false : this.state.canHaveVirgin,
+                                }).then(() => {
+                                   // this.props.history.push('/usage_checker');
+                                })
+                            })
+
+                           //usage checker
+
+                            db.open().then(async () => {
+                                await db.usage.put({ 
+                                broadbandCheck: this.state.broadbandCheck,
+                                phoneCheck: this.state.phoneCheck,
+                                smartCheck: this.state.smartCheck,
+                                entertainmentCheck: this.state.entertainmentCheck,
+                                sportsCheck: this.state.sportsCheck,
+                                moviesCheck: this.state.moviesCheck,
+                                netflixCheck: this.state.netflixCheck,
+                                primeCheck: this.state.primeCheck,
+                                nowCheck: this.state.nowCheck,
+                                }).then(() => {
+                                //this.props.history.push("/device_checker");
+                                })
+                            })
+                            
+                            //device checker
+
+                            db.open().then(async () => {
+                                await db.devices.put({ 
+                                numDevicesHighUse: this.state.NumDevicesHighUse,
+                                numDevicesMediumUse: this.state.NumDevicesMediumUse,
+                                numDevicesLowUse: this.state.NumDevicesLowUse
+                                }).then(() => {
+                                //this.props.history.push("/payment_checker");
+                                })
+                            })
+                            
+                            //payment checker
+
+                            db.open().then(async () => {
+                                await db.currentPay.put({ 
+                                  CurrentMonthlyPayment: values.payment
+                                }).then(() => {
+                                  //this.props.history.push("/result");
+                                })
+                              })
+
+                            /*
                             db.open().then(async () => {
                                 await db.customerServices.add({ 
                                     years: this.state.years,
@@ -978,7 +1042,7 @@ class Availability_Checker extends Component {
                                 })
                             })
                         
-
+*/
                             this.setState({ payment: values.payment })
                             this.props.history.push("/result");
                             return true;

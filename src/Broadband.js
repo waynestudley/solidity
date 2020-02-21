@@ -34,6 +34,8 @@ class AppBroadband extends Component {
   }
 
   componentDidMount() {
+    //console.log('componentDidMount Broadband')
+    //return ;
     let apiEndpointLogin = process.env.REACT_APP_API
     const urlParams = new URLSearchParams(window.location.search)
     const myParam = urlParams.get('theme')
@@ -69,7 +71,7 @@ class AppBroadband extends Component {
                 })
                 let userType = response.data.LoginSecurityGroup.split(",")
                 // CHECK FOR MULTI USER ROLE
-                console.log(userType)
+                //console.log(userType)
                 for (var i = 0; i < userType.length; ++i) {
                     if (parseInt(userType[i]) === 8) {
                         this.props.setGlobalState(() => ({
@@ -119,7 +121,7 @@ class AppBroadband extends Component {
                 }
             }
           }
-          console.log("*** ", response.data)
+          //console.log("*** ", response.data)
           db.open().then(async () => {
           await db.userAgent.put({
             SalesAgentId: response.data.AgentNumber,
@@ -180,6 +182,7 @@ class AppBroadband extends Component {
   }
 
   render() {
+    //console.log('Broadband render')
     const platform = { platform: "broadband_bt" }
     return (
       <Router>
@@ -192,30 +195,15 @@ class AppBroadband extends Component {
           }
           <Route path="/start" component={Homepage} />
           <Route path="/address_checker" component={Address_Checker} />
-          {this.myParam === "multi" && (
-            <Route
-              path="/availability_checker"
-              render={routeProps => (
-                <>
-                  <AvailabilityChecker {...routeProps} />
-                  <UsageChecker {...routeProps} />
-                  <DeviceChecker {...routeProps} />
-                  <PaymentChecker {...routeProps} r />
-                </>
-              )}
-            />
-          )}
-          {this.myParam !== "multi" && (
-            <>
-              <Route
-                path="/availability_checker"
-                component={AvailabilityChecker}
-              />
-              <Route path="/usage_checker" component={UsageChecker} />
-              <Route path="/device_checker" component={DeviceChecker} />
-              <Route path="/payment_checker" component={PaymentChecker} />
-            </>
-          )}
+
+          <Route
+            path="/availability_checker"
+            component={AvailabilityChecker}
+          />
+          <Route path="/usage_checker" component={UsageChecker} />
+          <Route path="/device_checker" component={DeviceChecker} />
+          <Route path="/payment_checker" component={PaymentChecker} />
+            
           <Route path="/result" component={Result} />
           <Route path="/application_form" component={ApplicationForm} />
           <Route path="/package_summary" component={PackageSummary} />

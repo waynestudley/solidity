@@ -76,6 +76,12 @@ class Result extends Component {
             currentPay = await db.currentPay.toArray()
             currentPay = currentPay[0]
         }).then(() => {
+          //console.log('Results')
+          //console.dir('customer',customer)
+          //console.dir('customerServices',customerServices)
+          //console.dir('usage',usage)
+          //console.dir('devices',devices)
+          //console.dir('currentPay',currentPay)
           this.setState({
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
@@ -102,7 +108,6 @@ class Result extends Component {
 
     }
     
-
     getQuote() {
       let thisSource = ''
       if(this.props.globalState.isBtJourney) {
@@ -320,7 +325,7 @@ class Result extends Component {
     };
 
     render() {
-      console.log('render results');
+      //console.log('render results');
         if (this.state.data.length === 0) {
             return (
                 <div>
