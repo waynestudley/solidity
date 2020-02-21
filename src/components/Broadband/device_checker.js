@@ -80,7 +80,7 @@ class Devices_Checker extends Component {
       this.setState({ errorMessage: "Select at least one device" });
     } else {
       db.open().then(async () => {
-        await db.customerServices.update(1,{ 
+        await db.devices.put({ 
           numDevicesHighUse: HighUse,
           numDevicesMediumUse: MediumUse,
           numDevicesLowUse: LowUse

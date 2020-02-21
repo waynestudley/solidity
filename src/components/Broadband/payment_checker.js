@@ -29,25 +29,29 @@ class Payment_Checker extends Component {
   }
   
   componentWillMount() {
-    let customerServices
+    let customerServices, usage, devices
     db.open().then(async function(){
         customerServices = await db.customerServices.toArray()
         customerServices = customerServices[0]
+        usage = await db.usage.toArray()
+        usage = usage[0]
+        devices = await db.devices.toArray()
+        devices = devices[0]
     }).then(() => {
       this.setState({
-        CurrentMediaPackageBroadband: customerServices.broadbandCheck,
-        CurrentMediaPackagePhone: customerServices.phoneCheck,
-        CurrentMediaPackageSmartTV: customerServices.smartCheck,
-        CurrentMediaPackageMovies: customerServices.moviesCheck,
-        CurrentMediaPackageSports: customerServices.sportsCheck,
-        CurrentMediaPackageEntertainment: customerServices.entertainmentCheck,
-        CurrentStreamServicesNetflix: customerServices.netflixCheck,
-        CurrentStreamServicesPrime: customerServices.primeCheck,
-        CurrentStreamServicesNowTV: customerServices.nowTvCheck,
-        NumDevicesHighUse: customerServices.numDevicesHighUse,
-        NumDevicesMediumUse: customerServices.numDevicesMediumUse,
-        LowUse: customerServices.numDevicesLowUse,
-        NumDevicesLowUse: customerServices.currentMonthlyPay
+        CurrentMediaPackageBroadband: usage.broadbandCheck,
+        CurrentMediaPackagePhone: usage.phoneCheck,
+        CurrentMediaPackageSmartTV: usage.smartCheck,
+        CurrentMediaPackageMovies: usage.moviesCheck,
+        CurrentMediaPackageSports: usage.sportsCheck,
+        CurrentMediaPackageEntertainment: usage.entertainmentCheck,
+        CurrentStreamServicesNetflix: usage.netflixCheck,
+        CurrentStreamServicesPrime: usage.primeCheck,
+        CurrentStreamServicesNowTV: usage.nowTvCheck,
+        NumDevicesHighUse: devices.numDevicesHighUse,
+        NumDevicesMediumUse: devices.numDevicesMediumUse,
+        LowUse: devices.numDevicesLowUse,
+        NumDevicesLowUse: devices.currentMonthlyPay
       })
       if (!this.props.globalState.isBtJourney) {
         this.getOfcom();
@@ -167,7 +171,7 @@ class Payment_Checker extends Component {
               }}
               onSubmit={(values) => {
                 db.open().then(async () => {
-                  await db.customerServices.update(1,{ 
+                  await db.currentPay.put({ 
                     CurrentMonthlyPayment: values.payment
                   }).then(() => {
                     this.props.history.push("/result");

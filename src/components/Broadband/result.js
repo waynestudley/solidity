@@ -63,30 +63,36 @@ class Result extends Component {
     }
 
     componentDidMount() {
-        let customer, customerServices
+        let customer, customerServices, usage, devices, currentPay
         db.open().then(async function(){
             customer = await db.customer.toArray()
             customer = customer[0]
             customerServices = await db.customerServices.toArray()
             customerServices = customerServices[0]
+            usage = await db.usage.toArray()
+            usage = usage[0]
+            devices = await db.devices.toArray()
+            devices = devices[0]
+            currentPay = await db.currentPay.toArray()
+            currentPay = currentPay[0]
         }).then(() => {
           this.setState({
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
             CurrentProviderMonths: customerServices.total,
-            Broadband: customerServices.broadbandCheck,
-            Phone: customerServices.phoneCheck,
-            TV: customerServices.smartCheck,
-            Movies: customerServices.moviesCheck,
-            Sports: customerServices.sportsCheck,
-            Entertainment: customerServices.entertainmentCheck,
-            Netflix: customerServices.netflixCheck,
-            Prime: customerServices.primeCheck,
-            NowTV: customerServices.nowTvCheck,
-            HighUse: customerServices.numDevicesHighUse,
-            MediumUse: customerServices.numDevicesMediumUse,
-            LowUse: customerServices.numDevicesLowUse,
-            CurrentMonthlyPay: customerServices.CurrentMonthlyPayment,
+            Broadband: usage.broadbandCheck,
+            Phone: usage.phoneCheck,
+            TV: usage.smartCheck,
+            Movies: usage.moviesCheck,
+            Sports: usage.sportsCheck,
+            Entertainment: usage.entertainmentCheck,
+            Netflix: usage.netflixCheck,
+            Prime: usage.primeCheck,
+            NowTV: usage.nowTvCheck,
+            HighUse: devices.numDevicesHighUse,
+            MediumUse: devices.numDevicesMediumUse,
+            LowUse: devices.numDevicesLowUse,
+            CurrentMonthlyPay: currentPay.CurrentMonthlyPayment,
             Aerial: customerServices.hasAerial,
             CanHaveVirgin: customerServices.canHaveVirgin
           })

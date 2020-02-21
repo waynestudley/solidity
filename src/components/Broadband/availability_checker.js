@@ -67,7 +67,10 @@ class Availability_Checker extends Component {
 
     componentDidMount() {
         db.customerServices.clear();
-        
+        db.usage.clear();
+        db.currentPay.clear();
+        db.devices.clear();
+
         if (this.props.globalState.isMultiJourney) {
             window.history.replaceState({}, null, "/index.html");
         }
