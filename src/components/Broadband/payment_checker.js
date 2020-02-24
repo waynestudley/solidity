@@ -11,7 +11,6 @@ class Payment_Checker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      
       CurrentMediaPackageBroadband: "",
       CurrentMediaPackagePhone: "",
       CurrentMediaPackageTV: "",

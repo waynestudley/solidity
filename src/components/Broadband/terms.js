@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Terms = ({ location }) => {
     const { state = {} } = location;
