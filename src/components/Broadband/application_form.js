@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react'
+import React, { Component } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Formik, Form } from 'formik'
 import axios from 'axios'
@@ -1019,3 +1019,4 @@ class ApplicationForm extends Component {
 }
 
 export default withGlobalState(ApplicationForm)
+                            
