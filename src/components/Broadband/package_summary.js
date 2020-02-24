@@ -61,6 +61,7 @@ class PackageSummary extends Component {
         customerServices = customerServices[0];
         packages = await db.package.toArray();
         packages = packages[0];
+        console.log(":::", packages)
       })
       .then(() => {
         this.setState({

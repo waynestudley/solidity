@@ -76,12 +76,7 @@ class Result extends Component {
             currentPay = await db.currentPay.toArray()
             currentPay = currentPay[0]
         }).then(() => {
-          //console.log('Results')
-          //console.dir('customer',customer)
-          //console.dir('customerServices',customerServices)
-          //console.dir('usage',usage)
-          //console.dir('devices',devices)
-          //console.dir('currentPay',currentPay)
+          console.dir('currentPay',currentPay)
           this.setState({
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
@@ -98,7 +93,7 @@ class Result extends Component {
             HighUse: devices.numDevicesHighUse,
             MediumUse: devices.numDevicesMediumUse,
             LowUse: devices.numDevicesLowUse,
-            CurrentMonthlyPay: currentPay.CurrentMonthlyPayment,
+            CurrentMonthlyPay: currentPay.currentMonthlyPayment,
             Aerial: customerServices.hasAerial,
             CanHaveVirgin: customerServices.canHaveVirgin
           })
