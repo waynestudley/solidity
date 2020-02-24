@@ -2,6 +2,7 @@
 import { withGlobalState } from 'react-globally';
 import axios from 'axios';
 import ClipLoader from 'react-spinners/ClipLoader'
+import db from "./broadbandDatabase";
 
 class Outcome extends Component {
     constructor(props) {
@@ -9,11 +10,20 @@ class Outcome extends Component {
         this.state = {
             outcome: '',
             outcomeList: [],
-            isSubmitted: false
+            isSubmitted: false,
+            Address1: '',
+            Address2: '',
+            Address3: '',
+            Town: '',
+            County: '',
+            Postcode: '',
+            LeadOutcomeId: '',
+            LeadOutcome: '',
+            SalesAgentId: ''
         };
     }
 
-    componentWillLoad() {
+    componentDidMount() {
         if (!this.props.globalState.outcomeList) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
             axios.get(process.env.REACT_APP_API + 'LeadOutcome/GetAll')
@@ -23,6 +33,23 @@ class Outcome extends Component {
                 }))
             })
         }
+        let customer, agent
+        db.open().then(async function(){
+            customer = await db.customer.toArray()
+            customer = customer[0]
+            agent = await db.agent.toArray()
+            agent = agent[0]
+        }).then(() => {
+          this.setState({
+            Address1: customer.Address1,
+            Address2: customer.Address2,
+            Address3: customer.Address3,
+            Town: customer.Town,
+            County: customer.County,
+            Postcode: customer.Postcode,
+            SalesAgentId: agent.SalesAgentId
+          })
+        })
     }
 
     handleClick() {
@@ -30,19 +57,18 @@ class Outcome extends Component {
             this.setState({ isSubmitted: true })
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
             axios.post(process.env.REACT_APP_API + 'AgentLeadOutcome/Post', {
-                "Address1": localStorage.getItem('Quote.Address1'),
-                "Address2": localStorage.getItem('Quote.Address2'),
-                "Address3": localStorage.getItem('Quote.Address3'),
-                "Town": localStorage.getItem('Quote.Town'),
-                "County": localStorage.getItem('Quote.County'),
-                "Postcode": localStorage.getItem('Quote.Postcode'),
+                "Address1": this.state.Address1,
+                "Address2": this.state.Address2,
+                "Address3": this.state.Address3,
+                "Town": this.state.Town,
+                "County": this.state.County,
+                "Postcode": this.state.Postcode,
                 "LeadOutcomeId": this.state.outcome,
                 "LeadOutcome": this.state.outcome,
-                "SalesAgentId": localStorage.getItem('sales_agent_id'),
+                "SalesAgentId": this.state.SalesAgentId,
                 "Source": 'BT'
             })
             .then(response => { 
-                //console.log(":= ", response.data, localStorage.getItem('sales_agent_id'))
                 this.setState({ isSubmitted: false })
                 window.location.hash = "/start"
             })
