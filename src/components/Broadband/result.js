@@ -202,11 +202,12 @@ class Result extends Component {
     }
 
     reset = () => {
-        this.setState({ 'resetClicked': true });
-        this.setState({ 'withoutTv': true });
-        this.setState({ 'withTv': true });
+        this.setState({ resetClicked: true,
+          withoutTv: true,
+          withTv: true
+        });
+          
         let thisSource = ''
-
         if(this.props.globalState.isBt) {
             thisSource = 'BT'
         } else if (this.props.globalState.isWeb) {
@@ -244,17 +245,16 @@ class Result extends Component {
                 "source": thisSource
             })
             .then(response => {
-              
-                this.setState({ fulldata: response.data });
-                var dataArray = response.data.reverse();
-                this.setState({ data: dataArray });
-                this.setState({ bestPackage: response.data.slice(-1)[0] });
-                this.setState({ fullPackage: response.data[0] });
-                this.setState({ bestPackageProvider: this.state.bestPackage.MediaProvider });
-                this.setState({ bestPackageId: this.state.bestPackage.Id });
-                this.setState({ fullPackageProvider: this.state.fullPackage.MediaProvider });
-                this.setState({ fullyLoadedPackageId: this.state.fullPackage.Id });
-                this.setState({ LoadingPackages: false });
+              this.setState({ fulldata: response.data });
+              var dataArray = response.data.reverse();
+              this.setState({ data: dataArray,
+                bestPackage: response.data.slice(-1)[0],
+                fullPackage: response.data[0],
+                bestPackageProvider: this.state.bestPackage.MediaProvider,
+                bestPackageId: this.state.bestPackage.Id,
+                fullPackageProvider: this.state.fullPackage.MediaProvider,
+                fullyLoadedPackageId: this.state.fullPackage.Id,
+                LoadingPackages: false });
                 
             })
             .catch(err => {
@@ -265,9 +265,10 @@ class Result extends Component {
 
     withTV = () => {
         let promise = new Promise((resolve, reject) => {
-            this.setState({ 'withTv': false });
-            this.setState({ 'withoutTv': true });
-            this.setState({ 'resetClicked': false });
+            this.setState({ withTv: false,
+              withoutTv: true,
+              resetClicked: false
+            });
             let fulldata = this.state.fulldata;
             if (fulldata) {
                 resolve(fulldata);
@@ -289,9 +290,10 @@ class Result extends Component {
 
     withoutTV = () => {
         let promise = new Promise((resolve, reject) => {
-            this.setState({ 'withoutTv': false });
-            this.setState({ 'withTv': true });
-            this.setState({ 'resetClicked': false });
+            this.setState({ withoutTv: false,
+              withTv: true,
+              resetClicked: false
+            });
             let fulldata = this.state.fulldata;
             if (fulldata) {
                 resolve(fulldata);
@@ -320,7 +322,6 @@ class Result extends Component {
     };
 
     render() {
-      //console.log('render results');
         if (this.state.data.length === 0) {
             return (
                 <div>
@@ -378,7 +379,6 @@ class Result extends Component {
                       }
                       alt="Logo"
                     />
-                    {/*<a href='#' className='modal-open-icon' onClick={(e) => openModal(e, item.MediaProvider.ProviderName)}>&nbsp;</a>*/}
                     <a
                       href="#"
                       className="modal-open-icon"
@@ -396,7 +396,6 @@ class Result extends Component {
                       {this.getUpfrontCostMessage(item)}
                     </span>
                   </div>
-                  {/*<div className='package-bandwidth'>{item.DataAllowanceDesc} Bandwidth<br /><div className='package-speed'><span>Up to</span><br />{item.MaxSpeed}&nbsp;Mb<br /><span>per second</span></div></div>*/}
                   <div className="package-speed">
                     <span>Up to</span>
                     <br />

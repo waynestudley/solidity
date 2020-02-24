@@ -65,13 +65,9 @@ class Availability_Checker extends Component {
     };
   }
 
-  componentWillUnmount() {
-    //console.log('AC : unmount');
-  }
+
 
   componentDidMount() {
-    // console.log('AC : Mount');
-
     db.customerServices.clear();
     db.usage.clear();
     db.currentPay.clear();
@@ -116,6 +112,9 @@ class Availability_Checker extends Component {
           providerList: response.data,
           providersLoaded: true
         });
+      })
+      .catch(err => {
+        console.error(":::::" + err);
       });
   }
 

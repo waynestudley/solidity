@@ -140,8 +140,9 @@ class ApplicationForm extends Component {
             "source": thisSource
         })
         .then(response => {
-            this.setState({ data: response.data[0] });
-            this.setState({ media_provider: response.data[0].MediaProvider });
+            this.setState({ data: response.data[0],
+                    media_provider: response.data[0].MediaProvider
+                });
             db.open().then(async () => {
                 await db.package.update(1,{ 
                     packageName: response.data[0].PackageName
@@ -202,9 +203,6 @@ class ApplicationForm extends Component {
                             if (values.phone !== "" && !/^(?:0)(?!4|0)[0-9\\s.\\/-]{10}$/i.test(values.phone)) {
                                 errors.phone = "You must supply a phone number";
                             }
-                            // if (values.postcode !== "" && !/^[A-Za-z]{1,2}\d{1,2}[A-Za-z]{0,1}\s*\d{0,1}[A-Za-z]{2}_{0,2}$/i.test(values.postcode)) {
-                            //     errors.postcode = "You must supply a valid UK postcode";
-                            // }
                             return errors;
                         }}
 

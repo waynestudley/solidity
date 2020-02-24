@@ -27,8 +27,9 @@ class Login extends Component {
     }
 
     validateLogin = (e) => {
-        this.setState({ isSubmitted: true })
-        this.setState({ errorMessage: '' })
+        this.setState({ isSubmitted: true,
+            errorMessage: ''
+        })
         e.preventDefault();
         var apiEndpointLogin = "";
         if (this.props.platform === 'broadband_bt') {
@@ -48,8 +49,9 @@ class Login extends Component {
         })
         .catch(error => {
             console.log(error.response)
-            this.setState({ isSubmitted: false })
-            this.setState({ errorMessage: 'Invalid login or password' })
+            this.setState({ isSubmitted: false,
+                errorMessage: 'Invalid login or password'
+            })
         });
     }
 
@@ -90,17 +92,20 @@ class Login extends Component {
                 this.setState({ isSubmitted: false })
                 this.props.history.push('/start')
             } else {
-                this.setState({ errorMessage: 'Office/User doesn\'t have permission' })
-                this.setState({ isSubmitted: false })
+                this.setState({ errorMessage: 'Office/User doesn\'t have permission',
+                isSubmitted: false
+            })
             }
         })
         .catch(error => {
             if (error.response.status === 401) {
-                this.setState({ errorMessage: 'An error has occured, please try again in a few miniutes' })
-                this.setState({ isSubmitted: false })
+                this.setState({ errorMessage: 'An error has occured, please try again in a few miniutes',
+                isSubmitted: false
+            })
             } else {
-                this.setState({ errorMessage: 'Office/User doesn\'t have permission' })
-                this.setState({ isSubmitted: false })
+                this.setState({ errorMessage: 'Office/User doesn\'t have permission',
+                isSubmitted: false
+            })
             }
         }
         );

@@ -101,9 +101,10 @@ class Homepage extends Component {
 
     handleChange = (e) => {
         let pc = e.target.value.toLowerCase().trim().replace(" ","")
-        this.setState({ postcodeList: [] })
-        this.setState({ postcode: pc })
-        this.setState({ btTargets: [] })
+        this.setState({ postcodeList: [],
+            postcode: pc,
+            btTargets: []
+        })
         this.props.setGlobalState(() => ({
             isBtJourney: false
         }))
@@ -156,7 +157,6 @@ class Homepage extends Component {
                                 if ( !/^[A-Za-z]{1,2}\d{1,2}[A-Za-z]{0,1}\s*\d{0,1}[A-Za-z]{2}_{0,2}$/i.test(this.state.postcode)) {
                                     errors.postcode = "You must supply a valid UK postcode";
                                 }
-
                                 return errors;
                             }}
                         >
@@ -186,7 +186,6 @@ class Homepage extends Component {
                                             onKeyPress={e => { if (e.key === 'Enter') e.preventDefault()}}
                                         />
                                       
-
                                         {errors.postcode && touched.postcode && (
                                             <div className="validation_text">{errors.postcode}</div>
                                         )} 
@@ -202,13 +201,6 @@ class Homepage extends Component {
                                                 </p>
                                             )) }
                                         </div>
-
-                                        {/* if web - add get started button? 
-                                        {this.props.globalState.isWeb &&
-                                            <button type="submit" className='link-btn w-100'>
-                                                Get started
-                                            </button>
-                                        }*/}
                                     </form>
                                 );
                             }}

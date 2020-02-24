@@ -14,7 +14,6 @@ class ApplicationList extends Component {
     }
 
     componentDidMount() {
-        //var loginData = JSON.parse(localStorage.getItem("Login.Data"));
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/GetApplicationList')
             .then(response => {
@@ -53,7 +52,6 @@ class ApplicationList extends Component {
     render() {
         return (
             <div>
-                
                 <SecondaryHeader isShowNewQuote={true}/>
                 <div className="perfect-package-wrapper features" style={{ maxWidth: '1050px' }}>
                     <div className="card-header-wrapper">Applications List - (Week)</div>
@@ -94,6 +92,5 @@ class ApplicationList extends Component {
         );
     }
 }
-
 
 export default withGlobalState(ApplicationList)

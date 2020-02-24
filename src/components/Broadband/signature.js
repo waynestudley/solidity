@@ -17,7 +17,6 @@ export default class Signature extends Component {
 
     trim = () => {
         this.setState({ trimmedDataURL: this.sigPad.getTrimmedCanvas().toDataURL('image/png') })
-        //console.log('on click:', this.state.trimmedDataURL);
     }
 
     render() {
