@@ -203,39 +203,73 @@ class Availability_Checker extends Component {
 
   changeMobile = e => {
     this.setState({ mobile: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeTablets = e => {
     this.setState({ tablets: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeLaptops = e => {
     this.setState({ laptops: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeTvs = e => {
     this.setState({ tvs: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeConsoles = e => {
     this.setState({ consoles: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeWatches = e => {
     this.setState({ watches: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeHubs = e => {
     this.setState({ hubs: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeSpeakers = e => {
     this.setState({ speakers: e.target.value });
+    this.updateDeviceTotals();
   };
 
   changeMeters = e => {
     this.setState({ meters: e.target.value });
+    this.updateDeviceTotals();
   };
+
+  updateDeviceTotals = () => {
+
+    let HighUse = 0;
+    if (isNaN(this.state.mobile) === false) HighUse += +this.state.mobile;
+    if (isNaN(this.state.tvs) === false) HighUse += +this.state.tvs;
+    if (isNaN(this.state.laptops) === false) HighUse += +this.state.laptops;
+    if (isNaN(this.state.tablets) === false) HighUse += +this.state.tablets;
+
+    let MediumUse = 0;
+    if (isNaN(this.state.consoles) === false) MediumUse += +this.state.consoles;
+    if (isNaN(this.state.speakers) === false) MediumUse += +this.state.speakers;
+
+    let LowUse = 0;
+    if (isNaN(this.state.watches) === false) LowUse += +this.state.watches;
+    if (isNaN(this.state.meters) === false) LowUse += +this.state.meters;
+    if (isNaN(this.state.hubs) === false) LowUse += +this.state.hubs;
+
+    this.setState({
+      NumDevicesHighUse: HighUse,
+      NumDevicesMediumUse: MediumUse,
+      NumDevicesLowUse: LowUse
+    });
+
+  }
 
   validateStep = e => {
     e.preventDefault();
@@ -275,6 +309,22 @@ class Availability_Checker extends Component {
         }
       );
     }
+  };
+
+  getOptionList = () => {
+    return (
+      <>
+        <option defaultValue value="0">
+          0
+        </option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6+</option>
+      </>
+    );
   };
 
   render() {
@@ -480,10 +530,6 @@ class Availability_Checker extends Component {
                           value={props.values.providerId || ""}
                           onChange={props.handleChange}
                           onBlur={props.handleBlur}
-                          // style={{
-                          //     borderColor:
-                          //         props.errors.providerId && props.touched.providerId && "tomato"
-                          // }}
                         >
                           <option value="" defaultValue>
                             Please select
@@ -832,15 +878,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeMobile}
                       value={this.state.mobile || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -861,15 +899,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeTablets}
                       value={this.state.tablets || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -890,15 +920,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeLaptops}
                       value={this.state.laptops || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -921,15 +943,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeTvs}
                       value={this.state.tvs || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -950,15 +964,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeConsoles}
                       value={this.state.consoles || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -979,15 +985,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeWatches}
                       value={this.state.watches || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -1010,15 +1008,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeHubs}
                       value={this.state.hubs || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -1039,15 +1029,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeSpeakers}
                       value={this.state.speakers || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -1068,15 +1050,7 @@ class Availability_Checker extends Component {
                       onChange={this.changeMeters}
                       value={this.state.meters || ""}
                     >
-                      <option defaultValue value="0">
-                        0
-                      </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">5+</option>
+                      {this.getOptionList()}
                     </select>
                   </div>
                 </div>
@@ -1148,34 +1122,9 @@ class Availability_Checker extends Component {
                       });
                     });
 
-                  /*
-                            db.open().then(async () => {
-                                await db.customerServices.add({ 
-                                    years: this.state.years,
-                                    months: this.state.months,
-                                    total: this.state.totalMonths,
-                                    provider: this.state.providerId,
-                                    hasAerial: this.props.globalState.isBtJourney ? false : this.state.hasAerial,
-                                    canHaveVirgin: this.props.globalState.isBtJourney ? false : this.state.canHaveVirgin,
-                                    broadbandCheck: this.state.broadbandCheck,
-                                    phoneCheck: this.state.phoneCheck,
-                                    smartCheck: this.state.smartCheck,
-                                    entertainmentCheck: this.state.entertainmentCheck,
-                                    sportsCheck: this.state.sportsCheck,
-                                    moviesCheck: this.state.moviesCheck,
-                                    netflixCheck: this.state.netflixCheck,
-                                    primeCheck: this.state.primeCheck,
-                                    nowCheck: this.state.nowCheck,
-                                    CurrentMonthlyPayment: values.payment,
-                                    numDevicesHighUse: this.state.NumDevicesHighUse,
-                                    numDevicesMediumUse: this.state.NumDevicesMediumUse,
-                                    numDevicesLowUse: this.state.NumDevicesLowUse
-                                })
-                            })
-                        
-*/
                   this.setState({ payment: values.payment });
                   this.props.history.push("/result");
+
                   return true;
                 }}
                 validate={values => {
