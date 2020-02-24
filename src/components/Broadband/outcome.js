@@ -37,7 +37,7 @@ class Outcome extends Component {
         db.open().then(async function(){
             customer = await db.customer.toArray()
             customer = customer[0]
-            agent = await db.agent.toArray()
+            agent = await db.userAgent.toArray()
             agent = agent[0]
         }).then(() => {
           this.setState({
@@ -53,6 +53,7 @@ class Outcome extends Component {
     }
 
     handleClick() {
+        console.log(this.state.Address1, this.state.Postcode)
         if (this.state.outcome && !this.state.isSubmitted) {
             this.setState({ isSubmitted: true })
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
