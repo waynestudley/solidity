@@ -11,7 +11,7 @@ class Payment_Checker extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPay: "",
+      
       CurrentMediaPackageBroadband: "",
       CurrentMediaPackagePhone: "",
       CurrentMediaPackageTV: "",
@@ -24,6 +24,7 @@ class Payment_Checker extends Component {
       NumDevicesHighUse: "",
       NumDevicesMediumUse: "",
       NumDevicesLowUse: "",
+      currentPay: null,
       data: []
     };
   }
@@ -50,8 +51,7 @@ class Payment_Checker extends Component {
         CurrentStreamServicesNowTV: usage.nowTvCheck,
         NumDevicesHighUse: devices.numDevicesHighUse,
         NumDevicesMediumUse: devices.numDevicesMediumUse,
-        LowUse: devices.numDevicesLowUse,
-        NumDevicesLowUse: devices.currentMonthlyPay
+        NumDevicesLowUse: devices.numDevicesLowUse,
       })
       if (!this.props.globalState.isBtJourney) {
         this.getOfcom();
@@ -172,7 +172,7 @@ class Payment_Checker extends Component {
               onSubmit={(values) => {
                 db.open().then(async () => {
                   await db.currentPay.put({ 
-                    CurrentMonthlyPayment: values.payment
+                    currentMonthlyPayment: values.payment
                   }).then(() => {
                     this.props.history.push("/result");
                   })

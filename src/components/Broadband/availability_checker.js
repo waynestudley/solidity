@@ -23,7 +23,7 @@ class Availability_Checker extends Component {
       formStep1: false,
       formStep2: false,
       formStep3: false,
-      payment: 0,
+      payment: null,
       totalMonths: 0,
 
       broadbandCheck: false,
@@ -1118,13 +1118,14 @@ class Availability_Checker extends Component {
                     })
                     .then(async () => {
                       await db.currentPay.put({
-                        CurrentMonthlyPayment: values.payment
+                        currentMonthlyPayment: values.payment
                       });
                     });
 
                   this.setState({ payment: values.payment });
-                  this.props.history.push("/result");
-
+                  if(this.state.payment) {
+                    this.props.history.push("/result");
+                  }
                   return true;
                 }}
                 validate={values => {

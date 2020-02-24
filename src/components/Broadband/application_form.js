@@ -53,7 +53,7 @@ class ApplicationForm extends Component {
     }
 
     componentWillMount() {
-        let customer, customerServices, packages, userAgent
+        let customer, customerServices, packages, userAgent, currentPay
         db.open().then(async function(){
             customer = await db.customer.toArray()
             customer = customer[0]
@@ -63,6 +63,8 @@ class ApplicationForm extends Component {
             packages = packages[0]
             userAgent = await db.userAgent.toArray()
             userAgent = userAgent[0]
+            currentPay = await db.currentPay.toArray()
+            currentPay = currentPay[0]
         }).then(() => {
           this.setState({
             salesAgentId: userAgent.SalesAgentId,
@@ -83,7 +85,7 @@ class ApplicationForm extends Component {
             HighUse: customerServices.numDevicesHighUse,
             MediumUse: customerServices.numDevicesMediumUse,
             LowUse: customerServices.numDevicesLowUse,
-            CurrentMonthlyPay: customerServices.currentMonthlyPay,
+            CurrentMonthlyPay: currentPay.currentMonthlyPayment,
             CanHaveVirgin: customerServices.canHaveVirgin,
             Aerial: customerServices.hasAerial,
             passed_id: packages.SelectedPackageId,
@@ -164,7 +166,6 @@ class ApplicationForm extends Component {
     }
 
     render() {
-        //console.dir(this.state);
         return (
             <div>
                 <SecondaryHeader />
@@ -182,7 +183,7 @@ class ApplicationForm extends Component {
                         accountNumber: ''
                     }}
                     validate={values => {
-                        //console.table(values);
+
                         const errors = {};
                         if (!values.title) errors.title = 'Required';
                         if (!values.firstName) errors.firstName = 'Required';
@@ -208,7 +209,6 @@ class ApplicationForm extends Component {
 
                     onSubmit={(values) => {
                         this.trim();
-                       // console.log(this.props.globalState.isBtJourney, values.address, values.firstName)
                         if (!this.props.globalState.isBtJourney) {
                             this.setState({ isSubmitted: true });
                             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
@@ -236,7 +236,7 @@ class ApplicationForm extends Component {
                                             "OptInEntertainment": this.state.Entertainment,
                                             "PerfectPackage": this.state.perfect,
                                             "OptInSuperCard": this.state.SuperCard,
-                                            "Savings": this.state.data.TotalSavings,
+                                            "Savings": (this.state.CurrentMonthlyPay * 12) - (this.state.data.MonthlyCost * 12),
                                             "AnnualCost": this.state.data.MonthlyCost * 12,
                                             "Source": 'CC'
                                         })
