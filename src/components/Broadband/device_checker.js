@@ -80,15 +80,33 @@ class Devices_Checker extends Component {
       this.setState({ errorMessage: "Select at least one device" });
     } else {
       db.open().then(async () => {
-        await db.devices.put({ 
-          numDevicesHighUse: HighUse,
-          numDevicesMediumUse: MediumUse,
-          numDevicesLowUse: LowUse
-        }).then(() => {
-          this.props.history.push("/payment_checker");
-        })
-      })
+        await db.devices
+          .put({
+            numDevicesHighUse: HighUse,
+            numDevicesMediumUse: MediumUse,
+            numDevicesLowUse: LowUse
+          })
+          .then(() => {
+            this.props.history.push("/payment_checker");
+          });
+      });
     }
+  };
+
+  getOptionList = () => {
+    return (
+      <>
+        <option defaultValue value="0">
+          0
+        </option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6+</option>
+      </>
+    );
   };
 
   render() {
@@ -174,15 +192,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeMobile}
                     value={this.state.mobile || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -203,15 +213,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeTablets}
                     value={this.state.tablets || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -232,15 +234,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeLaptops}
                     value={this.state.laptops || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -263,15 +257,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeTvs}
                     value={this.state.tvs || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -292,15 +278,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeConsoles}
                     value={this.state.consoles || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                   {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -321,15 +299,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeWatches}
                     value={this.state.watches || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                   {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -352,15 +322,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeHubs}
                     value={this.state.hubs || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                   {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -381,15 +343,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeSpeakers}
                     value={this.state.speakers || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    {this.getOptionList()}
                   </select>
                 </div>
               </div>
@@ -410,15 +364,7 @@ class Devices_Checker extends Component {
                     onChange={this.changeMeters}
                     value={this.state.meters || ""}
                   >
-                    <option defaultValue value="0">
-                      0
-                    </option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">5+</option>
+                    {this.getOptionList()}
                   </select>
                 </div>
               </div>
