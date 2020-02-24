@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react'
+import React, { Component } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Formik, Form } from 'formik'
 import axios from 'axios'
@@ -169,405 +169,407 @@ class ApplicationForm extends Component {
         return (
             <div>
                 <SecondaryHeader />
-                <Formik
-                    initialValues={{
-                        title: 'Mr',
-                        firstName: '',
-                        surName: '',
-                        address: this.state.Address1,
-                        postcode: this.state.Postcode.toUpperCase(),
-                        email: '',
-                        phone: '',
-                        accountName: '',
-                        sortcode: '',
-                        accountNumber: ''
-                    }}
-                    validate={values => {
+                {this.state.data !== "" && this.state.media_provider !== "" && (
+                    <Formik
+                        initialValues={{
+                            title: 'Mr',
+                            firstName: '',
+                            surName: '',
+                            address: this.state.Address1,
+                            postcode: this.state.Postcode.toUpperCase(),
+                            email: '',
+                            phone: '',
+                            accountName: '',
+                            sortcode: '',
+                            accountNumber: ''
+                        }}
+                        validate={values => {
 
-                        const errors = {};
-                        if (!values.title) errors.title = 'Required';
-                        if (!values.firstName) errors.firstName = 'Required';
-                        if (!values.surName) errors.surName = 'Required';
-                        if (!this.props.globalState.isBtJourney) {
-                            if (!values.email) errors.email = 'Required';
-                            if (!values.accountName) errors.accountName = 'Required';
-                            if (!values.sortcode) errors.sortcode = 'Required';
-                            if (!values.accountNumber) errors.accountNumber = 'Required';
-                        }
-                        if (this.sigPad.isEmpty()) errors.signature = 'Customers signature is required';
-                        if (  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && !this.props.globalState.isBtJourney) {
-                            errors.email = "You must supply a valid email address";
-                        }
-                        if (values.phone !== "" && !/^(?:0)(?!4|0)[0-9\\s.\\/-]{10}$/i.test(values.phone)) {
-                            errors.phone = "You must supply a phone number";
-                        }
-                        // if (values.postcode !== "" && !/^[A-Za-z]{1,2}\d{1,2}[A-Za-z]{0,1}\s*\d{0,1}[A-Za-z]{2}_{0,2}$/i.test(values.postcode)) {
-                        //     errors.postcode = "You must supply a valid UK postcode";
-                        // }
-                        return errors;
-                    }}
+                            const errors = {};
+                            if (!values.title) errors.title = 'Required';
+                            if (!values.firstName) errors.firstName = 'Required';
+                            if (!values.surName) errors.surName = 'Required';
+                            if (!this.props.globalState.isBtJourney) {
+                                if (!values.email) errors.email = 'Required';
+                                if (!values.accountName) errors.accountName = 'Required';
+                                if (!values.sortcode) errors.sortcode = 'Required';
+                                if (!values.accountNumber) errors.accountNumber = 'Required';
+                            }
+                            if (this.sigPad.isEmpty()) errors.signature = 'Customers signature is required';
+                            if (  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && !this.props.globalState.isBtJourney) {
+                                errors.email = "You must supply a valid email address";
+                            }
+                            if (values.phone !== "" && !/^(?:0)(?!4|0)[0-9\\s.\\/-]{10}$/i.test(values.phone)) {
+                                errors.phone = "You must supply a phone number";
+                            }
+                            // if (values.postcode !== "" && !/^[A-Za-z]{1,2}\d{1,2}[A-Za-z]{0,1}\s*\d{0,1}[A-Za-z]{2}_{0,2}$/i.test(values.postcode)) {
+                            //     errors.postcode = "You must supply a valid UK postcode";
+                            // }
+                            return errors;
+                        }}
 
-                    onSubmit={(values) => {
-                        this.trim();
-                        if (!this.props.globalState.isBtJourney) {
-                            this.setState({ isSubmitted: true });
-                            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
-                            axios.post(process.env.REACT_APP_API + 'Validation/ValidateBankAccount?AllowTest=true&accountNumber=' + values.accountNumber.toString() + '&accountSortCode=' + values.sortcode.toString())
-                                .then(response => {
-                                    if (response.data.Result === "True") {
-                                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
-                                        axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
-                                            "Title": values.title,
-                                            "Firstname": values.firstName,
-                                            "Surname": values.surName,
-                                            "Address1": this.state.Address1,
-                                            "Postcode": this.state.Postcode,
-                                            "HomePhone": values.phone,
-                                            "Email": values.email,
-                                            "SalesAgentId": this.state.salesAgentId,
-                                            "CallcentreId": this.state.callCenterId,
-                                            "MediaPackageId": this.state.passed_id,
-                                            "BankAccountHolderName": values.accountName,
-                                            "BankSortCode": values.sortcode,
-                                            "BankAccountNum": values.accountNumber,
-                                            "SignatureImage": this.state.trimmedDataURL,
-                                            "OptInSports": this.state.Sports,
-                                            "OptInMovies": this.state.Movies,
-                                            "OptInEntertainment": this.state.Entertainment,
-                                            "PerfectPackage": this.state.perfect,
-                                            "OptInSuperCard": this.state.SuperCard,
-                                            "Savings": (this.state.CurrentMonthlyPay * 12) - (this.state.data.MonthlyCost * 12),
-                                            "AnnualCost": this.state.data.MonthlyCost * 12,
-                                            "Source": 'CC'
-                                        })
-                                        .then(response => {
-                                            db.open().then(async () => {
-                                                await db.customer.update(1,{ 
-                                                    resultKey: response.data.Result,
-                                                    TelephoneNumber: values.phone,
-                                                    Firstname: values.firstName,
-                                                    Lastname: values.surName,
-                                                })
+                        onSubmit={(values) => {
+                            this.trim();
+                            if (!this.props.globalState.isBtJourney) {
+                                this.setState({ isSubmitted: true });
+                                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
+                                axios.post(process.env.REACT_APP_API + 'Validation/ValidateBankAccount?AllowTest=true&accountNumber=' + values.accountNumber.toString() + '&accountSortCode=' + values.sortcode.toString())
+                                    .then(response => {
+                                        if (response.data.Result === "True") {
+                                            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
+                                            axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
+                                                "Title": values.title,
+                                                "Firstname": values.firstName,
+                                                "Surname": values.surName,
+                                                "Address1": this.state.Address1,
+                                                "Postcode": this.state.Postcode,
+                                                "HomePhone": values.phone,
+                                                "Email": values.email,
+                                                "SalesAgentId": this.state.salesAgentId,
+                                                "CallcentreId": this.state.callCenterId,
+                                                "MediaPackageId": this.state.passed_id,
+                                                "BankAccountHolderName": values.accountName,
+                                                "BankSortCode": values.sortcode,
+                                                "BankAccountNum": values.accountNumber,
+                                                "SignatureImage": this.state.trimmedDataURL,
+                                                "OptInSports": this.state.Sports,
+                                                "OptInMovies": this.state.Movies,
+                                                "OptInEntertainment": this.state.Entertainment,
+                                                "PerfectPackage": this.state.perfect,
+                                                "OptInSuperCard": this.state.SuperCard,
+                                                "Savings": (this.state.CurrentMonthlyPay * 12) - (this.state.data.MonthlyCost * 12),
+                                                "AnnualCost": this.state.data.MonthlyCost * 12,
+                                                "Source": 'CC'
                                             })
-                                            this.setState({ isSubmitted: false })
-                                            this.props.history.push('/thank_you')
-                                        })
-                                    } else {
-                                        this.setState({ valTest: true });
-                                    }
-                                })
-                        } else { 
-                            this.setState({
-                                isSubmitted: true,
-                            });
-                            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
-                            axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
-                                "Firstname": values.firstName,
-                                "Surname": values.surName,
-                                "Address1": values.address,
-                                "Postcode": this.state.Postcode,
-                                "HomePhone": values.phone,
-                                "SalesAgentId": this.state.salesAgentId,
-                                "MediaPackageId": this.state.passed_id,
-                                "SignatureImage": this.state.trimmedDataURL,
-                                "Source": 'BT'
-                            })
-                            .then(response => {
-                                db.open().then(async () => {
-                                    await db.customer.update(1,{ 
-                                        resultKey: response.data.Result,
-                                        TelephoneNumber: values.phone,
-                                        Firstname: values.firstName,
-                                        Lastname: values.surName,
+                                            .then(response => {
+                                                db.open().then(async () => {
+                                                    await db.customer.update(1,{ 
+                                                        resultKey: response.data.Result,
+                                                        TelephoneNumber: values.phone,
+                                                        Firstname: values.firstName,
+                                                        Lastname: values.surName,
+                                                    })
+                                                })
+                                                this.setState({ isSubmitted: false })
+                                                this.props.history.push('/thank_you')
+                                            })
+                                        } else {
+                                            this.setState({ valTest: true });
+                                        }
                                     })
+                            } else { 
+                                this.setState({
+                                    isSubmitted: true,
+                                });
+                                axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
+                                axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
+                                    "Firstname": values.firstName,
+                                    "Surname": values.surName,
+                                    "Address1": values.address,
+                                    "Postcode": this.state.Postcode,
+                                    "HomePhone": values.phone,
+                                    "SalesAgentId": this.state.salesAgentId,
+                                    "MediaPackageId": this.state.passed_id,
+                                    "SignatureImage": this.state.trimmedDataURL,
+                                    "Source": 'BT'
                                 })
-                                this.setState({ isSubmitted: false })
-                                this.props.history.push('/thank_you')
-                            })
-                    }}
-                }
-                >
-                    {props => (
-                        <Form>
-                            <div className='feature-wrapper'>
-                                <div className='question-wrapper'>
-                                    <h2>Your details</h2>
-                                    <div className='form-row'>
-                                        <label htmlFor='title'>Title</label>
-                                        <select
-                                            name='title'
-                                            value={props.values.title}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.title && props.touched.title && "tomato"
-                                            }}
-                                        >
-                                            <option value='Mr'>Mr</option>
-                                            <option value='Mrs'>Mrs</option>
-                                            <option value='Miss'>Miss</option>
-                                            <option value='Ms'>Ms</option>
-                                            <option value='Doctor'>Doctor</option>
-                                            <option value='Professor'>Professor</option>
-                                            <option value='Reverend'>Reverend</option>
-                                            <option value='Father'>Father</option>
-                                            <option value='Lord'>Lord</option>
-                                        </select>
-                                        {props.errors.title && props.touched.title && (
-                                            <div className='validation_text'>{props.errors.title}</div>
-                                        )}
-                                    </div>
-                                    <div className='form-row'>
-                                        <label htmlFor="firstName">First name</label>
-                                        <input
-                                            name="firstName"
-                                            type="text"
-                                            value={props.values.firstName}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.firstName && props.touched.firstName && "tomato"
-                                            }}
-                                        />
-                                        {props.errors.firstName && props.touched.firstName && (
-                                            <div className='validation_text'>{props.errors.firstName}</div>
-                                        )}
-                                    </div>
-                                    <div className='form-row'>
-                                        <label htmlFor="surName">Surname</label>
-                                        <input
-                                            name="surName"
-                                            type="text"
-                                            value={props.values.surName}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.surName && props.touched.surName && "tomato"
-                                            }}
-                                        />
-                                        {props.errors.surName && props.touched.surName && (
-                                            <div className='validation_text'>{props.errors.surName}</div>
-                                        )}
-                                    </div>
-                                    <div className='form-row'>
-                                        <label htmlFor="address">Address</label>
-                                        <input
-                                            name="address"
-                                            type="text"
-                                            disabled={true}
-                                            value={this.state.Address1}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.address && props.touched.address && "tomato"
-                                            }}
-                                        />
-                                        {props.errors.address && props.touched.address && (
-                                            <div className='validation_text'>{props.errors.address}</div>
-                                        )}
-                                    </div>
-                                    <div className='form-row'>
-                                        <label htmlFor="postcode">Postcode</label>
-                                        <input
-                                            maxLength="8"
-                                            name="postcode"
-                                            type="text"
-                                            disabled={true}
-                                            className="supplier-postcode"
-                                            value={this.state.Postcode}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.postcode && props.touched.postcode && "tomato"
-                                            }}
-                                        />
-                                        {props.errors.postcode && props.touched.postcode && (
-                                            <div className='validation_text'>{props.errors.postcode}</div>
-                                        )}
-                                    </div>
-                                    { !this.props.globalState.isBtJourney ? 
-                                    <div className='form-row'>
-                                        <label htmlFor="email">Email Address</label>
-                                        <input
-                                            name="email"
-                                            type="email"
-                                            value={props.values.email}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.email && props.touched.email && "tomato"
-                                            }}
-                                        />
-                                        {props.errors.email && props.touched.email && (
-                                            <div className='validation_text'>{props.errors.email}</div>
-                                        )}
-                                    </div>
-                                    : ''}
-                                    <div className='form-row'>
-                                        <label htmlFor="phone">Phone Number</label>
-                                        <input
-                                            name="phone"
-                                            type="tel"
-                                            value={props.values.phone}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            style={{
-                                                borderColor:
-                                                    props.errors.phone && props.touched.phone && "tomato"
-                                            }}
-                                        />
-                                        {props.errors.phone && props.touched.phone && (
-                                            <div className='validation_text'>{props.errors.phone}</div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                            { !this.props.globalState.isBtJourney ? 
-                            <div className='feature-wrapper bank-details'>
-                                <div className='question-wrapper'>
-                                    <div className='dd-mandate-heading-wrapper'>
-                                        <div className='dd-mandate-supplier-logo'><img src={this.LogoPath + '/imagesPackage/' + this.state.media_provider.ProviderLogo} alt='Logo' /></div>
-                                        <h2>Instruction to your bank or<br /> building&nbsp;society to pay by Direct Debit</h2>
-                                        <div className='dd-mandate-ddlogo'><img src={ddMandate} alt='Direct Debit logo' /></div>
-                                    </div>
-                                </div>
-                                <div className='dd-mandate-two-col-wrapper'>
-                                    <div className='dd-mandate-two-col'>
-                                        <div className='dd-mandate-input-wrapper'>
-                                            <label htmlFor='AccountName'>Name of account holder</label>
-                                            <input
-                                                name="accountName"
-                                                type="text"
-                                                className="inspectletIgnore"
-                                                value={props.values.accountName}
+                                .then(response => {
+                                    db.open().then(async () => {
+                                        await db.customer.update(1,{ 
+                                            resultKey: response.data.Result,
+                                            TelephoneNumber: values.phone,
+                                            Firstname: values.firstName,
+                                            Lastname: values.surName,
+                                        })
+                                    })
+                                    this.setState({ isSubmitted: false })
+                                    this.props.history.push('/thank_you')
+                                })
+                        }}
+                    }
+                    >
+                        {props => (
+                            <Form>
+                                <div className='feature-wrapper'>
+                                    <div className='question-wrapper'>
+                                        <h2>Your details</h2>
+                                        <div className='form-row'>
+                                            <label htmlFor='title'>Title</label>
+                                            <select
+                                                name='title'
+                                                value={props.values.title}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 style={{
                                                     borderColor:
-                                                        props.errors.accountName && props.touched.accountName && "tomato"
+                                                        props.errors.title && props.touched.title && "tomato"
                                                 }}
-                                            />
-                                            {props.errors.accountName && props.touched.accountName && (
-                                                <div className='validation_text'>{props.errors.accountName}</div>
+                                            >
+                                                <option value='Mr'>Mr</option>
+                                                <option value='Mrs'>Mrs</option>
+                                                <option value='Miss'>Miss</option>
+                                                <option value='Ms'>Ms</option>
+                                                <option value='Doctor'>Doctor</option>
+                                                <option value='Professor'>Professor</option>
+                                                <option value='Reverend'>Reverend</option>
+                                                <option value='Father'>Father</option>
+                                                <option value='Lord'>Lord</option>
+                                            </select>
+                                            {props.errors.title && props.touched.title && (
+                                                <div className='validation_text'>{props.errors.title}</div>
                                             )}
                                         </div>
-                                        <div className='dd-mandate-input-wrapper'>
-                                            <label htmlFor='sortcode'>Bank sort code</label>
+                                        <div className='form-row'>
+                                            <label htmlFor="firstName">First name</label>
                                             <input
-                                                maxLength="6"
-                                                name="sortcode"
+                                                name="firstName"
                                                 type="text"
-                                                className="account-number inspectletIgnore"
-                                                value={props.values.sortcode}
+                                                value={props.values.firstName}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 style={{
                                                     borderColor:
-                                                        props.errors.sortcode && props.touched.sortcode && "tomato"
+                                                        props.errors.firstName && props.touched.firstName && "tomato"
                                                 }}
                                             />
-
-                                            {props.errors.sortcode && props.touched.sortcode && (
-                                                <div className='validation_text validate-sort-code'>{props.errors.sortcode}</div>
+                                            {props.errors.firstName && props.touched.firstName && (
+                                                <div className='validation_text'>{props.errors.firstName}</div>
                                             )}
                                         </div>
-                                        <div className='dd-mandate-input-wrapper'>
-                                            <label htmlFor="accountNumber">Account Number</label>
+                                        <div className='form-row'>
+                                            <label htmlFor="surName">Surname</label>
+                                            <input
+                                                name="surName"
+                                                type="text"
+                                                value={props.values.surName}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                style={{
+                                                    borderColor:
+                                                        props.errors.surName && props.touched.surName && "tomato"
+                                                }}
+                                            />
+                                            {props.errors.surName && props.touched.surName && (
+                                                <div className='validation_text'>{props.errors.surName}</div>
+                                            )}
+                                        </div>
+                                        <div className='form-row'>
+                                            <label htmlFor="address">Address</label>
+                                            <input
+                                                name="address"
+                                                type="text"
+                                                disabled={true}
+                                                value={this.state.Address1}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                style={{
+                                                    borderColor:
+                                                        props.errors.address && props.touched.address && "tomato"
+                                                }}
+                                            />
+                                            {props.errors.address && props.touched.address && (
+                                                <div className='validation_text'>{props.errors.address}</div>
+                                            )}
+                                        </div>
+                                        <div className='form-row'>
+                                            <label htmlFor="postcode">Postcode</label>
                                             <input
                                                 maxLength="8"
-                                                name="accountNumber"
+                                                name="postcode"
                                                 type="text"
-                                                className="account-number inspectletIgnore"
-                                                value={props.values.accountNumber}
+                                                disabled={true}
+                                                className="supplier-postcode"
+                                                value={this.state.Postcode}
+                                                onBlur={props.handleBlur}
+                                                style={{
+                                                    borderColor:
+                                                        props.errors.postcode && props.touched.postcode && "tomato"
+                                                }}
+                                            />
+                                            {props.errors.postcode && props.touched.postcode && (
+                                                <div className='validation_text'>{props.errors.postcode}</div>
+                                            )}
+                                        </div>
+                                        { !this.props.globalState.isBtJourney ? 
+                                        <div className='form-row'>
+                                            <label htmlFor="email">Email Address</label>
+                                            <input
+                                                name="email"
+                                                type="email"
+                                                value={props.values.email}
                                                 onChange={props.handleChange}
                                                 onBlur={props.handleBlur}
                                                 style={{
                                                     borderColor:
-                                                        props.errors.accountNumber && props.touched.accountNumber && "tomato"
+                                                        props.errors.email && props.touched.email && "tomato"
                                                 }}
                                             />
-                                            {props.errors.accountNumber && props.touched.accountNumber && (
-                                                <div className='validation_text validate-account-number'>{props.errors.accountNumber}</div>
+                                            {props.errors.email && props.touched.email && (
+                                                <div className='validation_text'>{props.errors.email}</div>
                                             )}
                                         </div>
-                                        {this.state.valTest ? <div className='bank-validation-message'>Account Number/Sortcode incorrect</div> : null}
-                                    </div>
-                                    <div className='dd-mandate-two-col'>
-                                        <div className='dd-mandate-instruction-wrapper'>
-                                            <div>
-                                                <p>Enter your account details so {this.state.media_provider.ProviderName} can set up your Direct Debit.<br /><strong> Money Expert will never take any money from your account.</strong> </p>
-                                            </div>
-                                            <p>
-                                                You will pay <strong> &pound;{this.state.data.MonthlyCost}</strong> monthly by Direct Debit to <strong>{this.state.media_provider.ProviderName}</strong>.
-                                            </p>
-                                            <p>
-                                                <strong>Instruction to your bank or building society</strong><br />
-                                                Please pay {this.state.media_provider.ProviderName} Direct Debits from the account detailed in this instruction subject to the safeguards assured by the Direct Debit Guarantee.
-                                                I understand that this instruction may remain with {this.state.media_provider.ProviderName} and, if so, details will be passed electronically to my bank/building society.
-                                            </p>
+                                        : ''}
+                                        <div className='form-row'>
+                                            <label htmlFor="phone">Phone Number</label>
+                                            <input
+                                                name="phone"
+                                                type="tel"
+                                                value={props.values.phone}
+                                                onChange={props.handleChange}
+                                                onBlur={props.handleBlur}
+                                                style={{
+                                                    borderColor:
+                                                        props.errors.phone && props.touched.phone && "tomato"
+                                                }}
+                                            />
+                                            {props.errors.phone && props.touched.phone && (
+                                                <div className='validation_text'>{props.errors.phone}</div>
+                                            )}
                                         </div>
                                     </div>
-                                    <aside className='direct-debit-secure-message'>
-                                        <p className='secure-message'>
-                                            <img src={sslSecure} alt='SSL Secure' />
-                                            <span><strong>Your data is safe with us</strong><br />We use SSL provided by GeoTrust to transfer your details safely and securely.</span>
-                                        </p>
-                                    </aside>
                                 </div>
-                            </div>
-                            : '' }
-                            <div className='feature-wrapper agreement'>
-                                <div className='question-wrapper'>
-                                    <h2>Your agreement</h2>
-                                    {! this.props.globalState.isBtJourney ?
-                                    <p className='bb-terms'>By signing below you agree to commit to switching your provider and accept Money Expert's <a className='dotted-link' href='#' rel="noopener noreferrer" onClick={(e) => openModal(e, 'modalTermsAndConds')}> terms and conditions</a></p>
-                                    : <p className='bb-terms'>I confirm I understand the package explained to me today and I am happy to receive a call from BT to discuss the package further.<br/><br/><strong>I agree to the following ‘Privacy Policies’</strong><br/><br/><a className="dotted-link" href='#' rel="noopener noreferrer" onClick={(e) => openModal(e, 'btPolicy')}>BT's Privacy Policy.</a><br/><a className='dotted-link' href='#' onClick={(e) => openModal(e, 'modalTermsAndConds')}>Money Expert's Privacy Policy.</a></p>}
-                                    <div className='signature-box-wrapper'>
-                                        <div className='form-row'>
-                                            <label htmlFor='signature'>Signature</label>
-                                            <div>
-                                                {props.errors.signature && (
-                                                    <div className='validation_text'>{props.errors.signature}</div>
+                                { !this.props.globalState.isBtJourney ? 
+                                <div className='feature-wrapper bank-details'>
+                                    <div className='question-wrapper'>
+                                        <div className='dd-mandate-heading-wrapper'>
+                                            <div className='dd-mandate-supplier-logo'><img src={this.LogoPath + '/imagesPackage/' + this.state.media_provider.ProviderLogo} alt='Logo' /></div>
+                                            <h2>Instruction to your bank or<br /> building&nbsp;society to pay by Direct Debit</h2>
+                                            <div className='dd-mandate-ddlogo'><img src={ddMandate} alt='Direct Debit logo' /></div>
+                                        </div>
+                                    </div>
+                                    <div className='dd-mandate-two-col-wrapper'>
+                                        <div className='dd-mandate-two-col'>
+                                            <div className='dd-mandate-input-wrapper'>
+                                                <label htmlFor='AccountName'>Name of account holder</label>
+                                                <input
+                                                    name="accountName"
+                                                    type="text"
+                                                    className="inspectletIgnore"
+                                                    value={props.values.accountName}
+                                                    onChange={props.handleChange}
+                                                    onBlur={props.handleBlur}
+                                                    style={{
+                                                        borderColor:
+                                                            props.errors.accountName && props.touched.accountName && "tomato"
+                                                    }}
+                                                />
+                                                {props.errors.accountName && props.touched.accountName && (
+                                                    <div className='validation_text'>{props.errors.accountName}</div>
                                                 )}
-                                                <SignatureCanvas
-                                                    penColor='black'
-                                                    canvasProps={{ width: 546, height: 200, className: 'sig-canvas' }}
-                                                    ref={(ref) => { this.sigPad = ref; }}
+                                            </div>
+                                            <div className='dd-mandate-input-wrapper'>
+                                                <label htmlFor='sortcode'>Bank sort code</label>
+                                                <input
+                                                    maxLength="6"
+                                                    name="sortcode"
+                                                    type="text"
+                                                    className="account-number inspectletIgnore"
+                                                    value={props.values.sortcode}
+                                                    onChange={props.handleChange}
+                                                    onBlur={props.handleBlur}
+                                                    style={{
+                                                        borderColor:
+                                                            props.errors.sortcode && props.touched.sortcode && "tomato"
+                                                    }}
                                                 />
 
-                                                <div className='signature-button-wrapper'>
-                                                    <button type='button' onClick={this.clearSig}>Clear</button>
+                                                {props.errors.sortcode && props.touched.sortcode && (
+                                                    <div className='validation_text validate-sort-code'>{props.errors.sortcode}</div>
+                                                )}
+                                            </div>
+                                            <div className='dd-mandate-input-wrapper'>
+                                                <label htmlFor="accountNumber">Account Number</label>
+                                                <input
+                                                    maxLength="8"
+                                                    name="accountNumber"
+                                                    type="text"
+                                                    className="account-number inspectletIgnore"
+                                                    value={props.values.accountNumber}
+                                                    onChange={props.handleChange}
+                                                    onBlur={props.handleBlur}
+                                                    style={{
+                                                        borderColor:
+                                                            props.errors.accountNumber && props.touched.accountNumber && "tomato"
+                                                    }}
+                                                />
+                                                {props.errors.accountNumber && props.touched.accountNumber && (
+                                                    <div className='validation_text validate-account-number'>{props.errors.accountNumber}</div>
+                                                )}
+                                            </div>
+                                            {this.state.valTest ? <div className='bank-validation-message'>Account Number/Sortcode incorrect</div> : null}
+                                        </div>
+                                        <div className='dd-mandate-two-col'>
+                                            <div className='dd-mandate-instruction-wrapper'>
+                                                <div>
+                                                    <p>Enter your account details so {this.state.media_provider.ProviderName} can set up your Direct Debit.<br /><strong> Money Expert will never take any money from your account.</strong> </p>
+                                                </div>
+                                                <p>
+                                                    You will pay <strong> &pound;{this.state.data.MonthlyCost}</strong> monthly by Direct Debit to <strong>{this.state.media_provider.ProviderName}</strong>.
+                                                </p>
+                                                <p>
+                                                    <strong>Instruction to your bank or building society</strong><br />
+                                                    Please pay {this.state.media_provider.ProviderName} Direct Debits from the account detailed in this instruction subject to the safeguards assured by the Direct Debit Guarantee.
+                                                    I understand that this instruction may remain with {this.state.media_provider.ProviderName} and, if so, details will be passed electronically to my bank/building society.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <aside className='direct-debit-secure-message'>
+                                            <p className='secure-message'>
+                                                <img src={sslSecure} alt='SSL Secure' />
+                                                <span><strong>Your data is safe with us</strong><br />We use SSL provided by GeoTrust to transfer your details safely and securely.</span>
+                                            </p>
+                                        </aside>
+                                    </div>
+                                </div>
+                                : '' }
+                                <div className='feature-wrapper agreement'>
+                                    <div className='question-wrapper'>
+                                        <h2>Your agreement</h2>
+                                        {! this.props.globalState.isBtJourney ?
+                                        <p className='bb-terms'>By signing below you agree to commit to switching your provider and accept Money Expert's <a className='dotted-link' href='#' rel="noopener noreferrer" onClick={(e) => openModal(e, 'modalTermsAndConds')}> terms and conditions</a></p>
+                                        : <p className='bb-terms'>I confirm I understand the package explained to me today and I am happy to receive a call from BT to discuss the package further.<br/><br/><strong>I agree to the following ‘Privacy Policies’</strong><br/><br/><a className="dotted-link" href='#' rel="noopener noreferrer" onClick={(e) => openModal(e, 'btPolicy')}>BT's Privacy Policy.</a><br/><a className='dotted-link' href='#' onClick={(e) => openModal(e, 'modalTermsAndConds')}>Money Expert's Privacy Policy.</a></p>}
+                                        <div className='signature-box-wrapper'>
+                                            <div className='form-row'>
+                                                <label htmlFor='signature'>Signature</label>
+                                                <div>
+                                                    {props.errors.signature && (
+                                                        <div className='validation_text'>{props.errors.signature}</div>
+                                                    )}
+                                                    <SignatureCanvas
+                                                        penColor='black'
+                                                        canvasProps={{ width: 546, height: 200, className: 'sig-canvas' }}
+                                                        ref={(ref) => { this.sigPad = ref; }}
+                                                    />
+
+                                                    <div className='signature-button-wrapper'>
+                                                        <button type='button' onClick={this.clearSig}>Clear</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <button
+                                        type='submit'
+                                        id='submit'
+                                        value='Submit'
+                                        disabled={this.state.isSubmitted}
+                                        className='link-btn'
+                                    >
+                                    <ClipLoader
+                                        loading={this.state.isSubmitted}
+                                        size={1.35} sizeUnit='rem'
+                                        color='#203a54'
+                                    /> 
+                                    &nbsp;Agree
+                                    </button>
+                                    {this.props.globalState.isBtJourney ?
+                                    <Link to='/start' disabled={this.state.isSubmitted} className='link-btn'>Disagree</Link>
+                                    : '' }
                                 </div>
-                                <button
-                                    type='submit'
-                                    id='submit'
-                                    value='Submit'
-                                    disabled={this.state.isSubmitted}
-                                    className='link-btn'
-                                >
-                                <ClipLoader
-                                    loading={this.state.isSubmitted}
-                                    size={1.35} sizeUnit='rem'
-                                    color='#203a54'
-                                /> 
-                                &nbsp;Agree
-                                </button>
-                                {this.props.globalState.isBtJourney ?
-                                <Link to='/start' disabled={this.state.isSubmitted} className='link-btn'>Disagree</Link>
-                                : '' }
-                            </div>
-                        </Form>
-                    )}
-                </Formik>
+                            </Form>
+                        )}
+                    </Formik>
+                )}
 
                 {/*modal window*/}
                 <div id='modalTermsAndConds' className='modal-window'>
@@ -1017,3 +1019,4 @@ class ApplicationForm extends Component {
 }
 
 export default withGlobalState(ApplicationForm)
+                            
