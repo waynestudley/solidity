@@ -55,7 +55,6 @@ class Homepage extends Component {
                     console.log(err);
                 })
             }
-        this.clearLocalStorageWithPrefix('Quote');
 
         // If BT get outcomes for combobox
         if (this.props.globalState.outcomeList === null && this.props.globalState.isBt) {
@@ -71,7 +70,6 @@ class Homepage extends Component {
 
     selectPostcode(pc) {
         this.setState({ address: pc })
-        localStorage.setItem('Quote.Address', this.state.address);
         this.lookupPostcode(pc)
     }
 
@@ -86,8 +84,6 @@ class Homepage extends Component {
             }))
         }
 
-        //console.log("1",id.Postcode)
-
         db.open().then(async () => {
             await db.customer.put({
                 Address: JSON.stringify(id),
@@ -101,9 +97,6 @@ class Homepage extends Component {
                 window.location.hash = "/availability_checker"
             })
         })
-        
-
-        
     }
 
     handleChange = (e) => {
@@ -120,7 +113,6 @@ class Homepage extends Component {
         }
     }
 
-
     async lookupPostcode(postcode) {       
         try {
             const response = await axios.get(
@@ -133,19 +125,6 @@ class Homepage extends Component {
             }
         } catch (error) {
             console.error(error)
-        }
-    }
-
-    clearLocalStorageWithPrefix(prefix) {
-        var removeKeys = [];
-        for (var i = 0; i < localStorage.length; i++) {
-            var keyName = localStorage.key(i);
-            if (keyName.startsWith(prefix)) {
-                removeKeys.push(keyName);
-            }
-        }
-        for (var n = 0; n < removeKeys.length; n++) {
-            localStorage.removeItem(removeKeys[n]);
         }
     }
 
@@ -181,7 +160,6 @@ class Homepage extends Component {
                                 return errors;
                             }}
                         >
-                            
                             {props => {
                                 const {
                                     touched,
