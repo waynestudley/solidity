@@ -200,7 +200,7 @@ class ApplicationForm extends Component {
                             if (  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && !this.props.globalState.isBtJourney) {
                                 errors.email = "You must supply a valid email address";
                             }
-                            if (values.phone !== "" && !/^(?:0)(?!4|0)[0-9\\s.\\/-]{10}$/i.test(values.phone)) {
+                            if (values.phone.length < 10 || values.phone !== "" && !/^(?:0)(?!4|0)[0-9\\s.\\/-]{10}$/i.test(values.phone)) {
                                 errors.phone = "You must supply a phone number";
                             }
                             return errors;
