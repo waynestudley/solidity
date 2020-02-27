@@ -18,12 +18,12 @@ export function insertLog(level, description, message) {
 
   console.log(levelLookup[level], description, message);
 
-  let applicationId = 120; //dev
+  let applicationId = 117; //dev
   const hostname = window.location.hostname;
   if (hostname === "testf2f.moneyexpert.com") {
-    applicationId = 119; //test
+    applicationId = 116; //test
   } else if (hostname === "f2f.moneyexpert.com") {
-    applicationId = 118; //live
+    applicationId = 115; //live
   }
 
   const dataToSend = {
@@ -60,30 +60,4 @@ export function insertLog(level, description, message) {
     .catch(function(error) {
       console.log("LogError: ", error);
     });
-
-    /*
-  axios
-    .request({
-      method: "POST",
-      url:
-        "http://monitoringws.moneyexpert.com/systemmonitoring.asmx/InsertLogGetV2",
-      headers: { "content-type": "application/x-www-form-urlencoded" },
-      data: encodedDataToSend
-    })
-    .catch(function(error) {
-      if (error.response) {
-        // Request made and server responded
-        console.log("LogError");
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        // The request was made but no response was received
-        console.log("LogError", error.request);
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        console.log("LogError", error.message);
-      }
-    });
-    */
 }
