@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { withGlobalState } from 'react-globally';
 import { openModal, closeModal } from './helper';
 import ReactGA from 'react-ga';
+import { initLog, insertLog, getSession } from "../../monitor";
 
 class SecondaryHeader extends Component {
     constructor(props) {
@@ -26,7 +27,10 @@ class SecondaryHeader extends Component {
             window.location = "/";
         }
     }
-    
+    resetSession(){
+        initLog();
+        insertLog(1, "ReInit: Broadband", "SessionId:"+getSession() );
+    }
     render() {
         return (
             <div>
@@ -37,7 +41,7 @@ class SecondaryHeader extends Component {
                                 <a href='https://portal.simplyswitch.com/'>New&nbsp;Quote</a>
                             }
                             { (!this.props.globalState.isBtJourney || this.props.isShowNewQuote === true) && !this.props.globalState.isMultiJourney && 
-                                <a href='#/start'>New&nbsp;Quote</a>
+                                <a href='#/start' onClick={this.resetSession}>New&nbsp;Quote</a>
                             }
                             {this.props.globalState.isSupercard &&
                                 <a href='#'  onClick={(e) => openModal(e, 'modalSuperCard')}>Free&nbsp;SuperCard</a>

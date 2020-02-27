@@ -66,8 +66,6 @@ class Availability_Checker extends Component {
     };
   }
 
-
-
   componentDidMount() {
     db.customerServices.clear();
     db.usage.clear();
@@ -185,6 +183,7 @@ class Availability_Checker extends Component {
     ) {
       this.setState({ errorMessage1: "Select at least one package" });
     } else {
+      insertLog(1, "Availability_checker Step2", "");
       this.setState({ errorMessage1: "" });
       this.setState(
         {
@@ -298,6 +297,7 @@ class Availability_Checker extends Component {
     if (HighUse === 0 && MediumUse === 0 && LowUse === 0) {
       this.setState({ errorMessage2: "Select at least one device" });
     } else {
+      insertLog(1, "Availability_checker Step3", "");
       this.setState(
         {
           formStep3: true
@@ -440,8 +440,9 @@ class Availability_Checker extends Component {
                     isBtJourney: false
                   }));
                 }
-                if (this.props.globalState.isMultiJourney) {
+                if (this.props.globalState.isMultiJourney) {                  
                   this.setState({ formStep1: true });
+                  insertLog(1, "Availability_checker Step1", "");
                 } else {
                   db.open().then(async () => {
                     await db.customerServices
