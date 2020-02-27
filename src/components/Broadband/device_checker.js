@@ -4,6 +4,7 @@ import SecondaryHeader from "./secondary_header";
 import { withGlobalState } from "react-globally";
 import Outcome from "./outcome";
 import db from "./broadbandDatabase";
+import { insertLog } from "../../monitor";
 
 class Devices_Checker extends Component {
   constructor(props) {
@@ -87,6 +88,8 @@ class Devices_Checker extends Component {
             numDevicesLowUse: LowUse
           })
           .then(() => {
+            let str = "H="+HighUse+",M="+MediumUse+",L="+LowUse;
+            insertLog(1, "Device_checker Submit", str);
             this.props.history.push("/payment_checker");
           });
       });

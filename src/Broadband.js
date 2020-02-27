@@ -17,8 +17,8 @@ import Homepage from "./components/Broadband/homepage"
 import { withGlobalState } from "react-globally"
 import db from "./components/Broadband/broadbandDatabase"
 import axios from "axios"
+import {initLog, insertLog, getSession} from "./monitor";
 import "./css/login.css"
-
 
 // NEED TO SWAP BETWEEN THESE TWO CSS FILES DEPENDING ON WHERE IT'S BEING HOSTED...
 import './css/Multi_Broadband.css' // -- Multi Journey / BT / MEx
@@ -34,6 +34,8 @@ class AppBroadband extends Component {
   }
 
   componentDidMount() {
+    initLog();
+    insertLog(1, "Init: Broadband", "SessionId:"+getSession() );
     //console.log('componentDidMount Broadband')
     //return ;
     let apiEndpointLogin = process.env.REACT_APP_API
@@ -46,6 +48,7 @@ class AppBroadband extends Component {
     db.delete()
 
     if (energyAppId && token )  { // Is a mixed journey 
+      insertLog(1, "Mixed Journey", "" );
       // First get loginSecurityGroup value from GetAgentDetails API using JWT
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
       axios.post(process.env.REACT_APP_API + 'UserAccount/GetAgentDetails')
@@ -153,6 +156,8 @@ class AppBroadband extends Component {
           console.log(err)
       })
     } else if (myParam === 'ss' || myParam === 'mex') {
+      
+      insertLog(1, "myParam:"+ myParam, "" );
       this.props.setGlobalState(() => ({
           isWeb: true,
           journeyTheme: myParam

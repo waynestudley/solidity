@@ -3,6 +3,7 @@ import SecondaryHeader from './secondary_header'
 import { withGlobalState } from 'react-globally'
 import axios from 'axios'
 import db from "./broadbandDatabase"
+import { insertLog } from "../../monitor";
 
 class ThankYou extends Component {
     constructor(props) {
@@ -63,6 +64,7 @@ class ThankYou extends Component {
     doSubmit() {
         // If a multi journey - submit the application
         if (this.props.globalState.isMultiJourney) {
+            insertLog(1, "Thank_you Multi Submit", JSON.stringify(this.state));
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
             axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
                 "Title": this.state.Title,
@@ -86,6 +88,7 @@ class ThankYou extends Component {
         }
         // If a BT journey - auto submit the outcome
         if (this.props.globalState.isBtJourney ) {
+            insertLog(1, "Thank_you BT Submit", JSON.stringify(this.state));
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
             axios.post(process.env.REACT_APP_API + 'AgentLeadOutcome/Post', {
                 "Address1": this.state.Address1,
