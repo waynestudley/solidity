@@ -259,11 +259,13 @@ class ApplicationForm extends Component {
                                 this.setState({
                                     isSubmitted: true,
                                 });
+
                                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
                                 axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
                                     "Firstname": values.firstName,
                                     "Surname": values.surName,
-                                    "Address1": values.address,
+                                    "Address1": this.state.Address1,
+                                    "Address2": this.state.Address2,
                                     "Postcode": this.state.Postcode,
                                     "HomePhone": values.phone,
                                     "SalesAgentId": this.state.salesAgentId,
@@ -283,6 +285,7 @@ class ApplicationForm extends Component {
                                     this.setState({ isSubmitted: false })
                                     this.props.history.push('/thank_you')
                                 })
+                                
                         }}
                     }
                     >
