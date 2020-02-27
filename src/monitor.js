@@ -49,6 +49,19 @@ export function insertLog(level, description, message) {
   strSessionId:
   */
 
+  fetch("http://monitoringws.moneyexpert.com/systemmonitoring.asmx/InsertLogGetV2", {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: encodedDataToSend
+  })
+    .then(function(data) {
+      //console.log("Request success: ", data);
+    })
+    .catch(function(error) {
+      console.log("LogError: ", error);
+    });
+
+    /*
   axios
     .request({
       method: "POST",
@@ -58,7 +71,6 @@ export function insertLog(level, description, message) {
       data: encodedDataToSend
     })
     .catch(function(error) {
-      
       if (error.response) {
         // Request made and server responded
         console.log("LogError");
@@ -72,6 +84,6 @@ export function insertLog(level, description, message) {
         // Something happened in setting up the request that triggered an Error
         console.log("LogError", error.message);
       }
-      
     });
+    */
 }
