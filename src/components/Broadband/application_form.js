@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom'
 import Outcome from './outcome'
 import ClipLoader from 'react-spinners/ClipLoader'
 import db from "./broadbandDatabase"
+import { insertLog } from "../../monitor";
 
 class ApplicationForm extends Component {
     constructor(props) {
@@ -109,6 +110,9 @@ class ApplicationForm extends Component {
             })
             thisSource = 'CC'
         }
+        
+        insertLog(1, "Application_form Quote", JSON.stringify(this.state));
+        
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/Quote', {
             "Postcode": this.state.Postcode,

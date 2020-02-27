@@ -16,6 +16,7 @@ import zizzi from '../../images/Supercard/zizzi.jpg';
 import SecondaryHeader from './secondary_header';
 import Outcome from './outcome';
 import db from "./broadbandDatabase";
+import { insertLog } from "../../monitor";
 
 import { openModal, closeModal } from './helper';
 
@@ -76,7 +77,7 @@ class Result extends Component {
             currentPay = await db.currentPay.toArray()
             currentPay = currentPay[0]
         }).then(() => {
-          console.dir('currentPay',currentPay)
+         // console.dir('currentPay',currentPay)
           this.setState({
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
@@ -143,6 +144,7 @@ class Result extends Component {
       })
       .then(response => {
           var dataArray = response.data.reverse();
+          insertLog(1, "Result Quote", "");
           this.setState({ fulldata: response.data });
           this.setState({ data: dataArray });
           this.setState({ bestPackage: response.data.slice(-1)[0] });

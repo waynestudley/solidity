@@ -4,6 +4,7 @@ import { withGlobalState } from "react-globally";
 import Outcome from "./outcome";
 import SecondaryHeader from "./secondary_header";
 import db from "./broadbandDatabase";
+import { insertLog } from "../../monitor";
 
 class Usage_Checker extends Component {
   constructor(props) {
@@ -83,6 +84,7 @@ class Usage_Checker extends Component {
           nowCheck: this.state.nowCheck,
         }).then(() => {
           //console.log(">>> BB ",this.state.broadbandCheck + " - phone" + this.state.phoneCheck + " - smart" + this.state.smartCheck + " - ent" + this.state.entertainmentCheck  + " - sports" + this.state.sportsCheck + " - movies" + this.state.moviesCheck + " - netflix" + this.state.netflixCheck + " - now" + this.state.nowCheck + " - prime" + this.state.primeCheck)
+          insertLog(1, "Usage_checker Submit", JSON.stringify(this.state));
           this.props.history.push("/device_checker");
         })
       })

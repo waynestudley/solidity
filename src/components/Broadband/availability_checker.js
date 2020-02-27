@@ -7,6 +7,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Outcome from "./outcome";
 import { Formik } from "formik";
 import db from "./broadbandDatabase";
+import { insertLog } from "../../monitor";
 
 class Availability_Checker extends Component {
   constructor(props) {
@@ -421,6 +422,8 @@ class Availability_Checker extends Component {
                 canHaveVirgin: this.state.canHaveVirgin
               }}
               onSubmit={values => {
+                
+                insertLog(1, "Availability_checker Submit", JSON.stringify(values));
                 const conversion = values.years * 12;
                 this.setState({
                   years: values.years,

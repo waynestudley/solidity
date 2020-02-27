@@ -6,6 +6,7 @@ import SecondaryHeader from "./secondary_header";
 import Outcome from "./outcome";
 import ClipLoader from "react-spinners/ClipLoader";
 import db from "./broadbandDatabase";
+import { insertLog } from "../../monitor";
 
 class PackageSummary extends Component {
   constructor(props) {
@@ -111,6 +112,8 @@ class PackageSummary extends Component {
       });
       thisSource = "CC";
     }
+    
+    insertLog(1, "Package_summary getQuote", JSON.stringify(this.state));
     axios
       .post(process.env.REACT_APP_API + "Media/Quote", {
         Postcode: this.state.Postcode,
