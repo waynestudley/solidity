@@ -53,6 +53,7 @@ class PackageSummary extends Component {
   }
 
   componentWillMount() {
+    db.packageName.clear();
     let customer, customerServices, packages;
     db.open()
       .then(async function() {
@@ -62,7 +63,6 @@ class PackageSummary extends Component {
         customerServices = customerServices[0];
         packages = await db.package.toArray();
         packages = packages[0];
-        console.log(":::", packages)
       })
       .then(() => {
         this.setState({
@@ -146,7 +146,14 @@ class PackageSummary extends Component {
           media_features: response.data[0].MediaFeatures,
           summaryLoaded: true
         });
+        alert(this.state.data.PackageName)
+        db.open().then(async () => {
+          await db.packageName.put({ 
+            packageName: this.state.data.PackageName
+          })
+        })
       });
+      
   }
 
   featuresMarketing(feature) {

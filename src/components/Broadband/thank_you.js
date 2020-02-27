@@ -12,7 +12,7 @@ class ThankYou extends Component {
             Reference: '',
             Title: '',
             Firstname: '',
-            Surname: '',
+            Lastname: '',
             Address1: '',
             Address2: '',
             Postcode: '',
@@ -29,7 +29,7 @@ class ThankYou extends Component {
     }
 
     componentDidMount() {
-        let customer, packages, userAgent
+        let customer, packages, userAgent, application, packageName
         db.open().then(async function(){
             customer = await db.customer.toArray()
             customer = customer[0]
@@ -37,25 +37,28 @@ class ThankYou extends Component {
             userAgent = userAgent[0]
             packages = await db.package.toArray()
             packages = packages[0]
+            application = await db.application.toArray()
+            application = application[0]
+            packageName = await db.packageName.toArray()
+            packageName = packageName[0]
         }).then(() => {
           this.setState({
-            Reference: customer.resultKey,
+            Reference: application.resultKey,
+            Firstname: application.firstName,
+            Lastname: application.lastName,
+            HomePhone: application.telephone,
             Title: customer.Title,
             energyAppId: customer.energyAppId,
-            Firstname: customer.Firstname,
-            Lastname: customer.Lastname,
-            Surname: customer.Lastname,
             Address1: customer.Address1,
             Address2: customer.Address2,
             Postcode: customer.Postcode,
             Town: customer.Town,
             County: customer.County,
-            HomePhone: customer.TelephoneNumber,
             Email: customer.EmailAddress,
             SalesAgentId: userAgent.SalesAgentId,
             CallcentreId: userAgent.CallcentreId,
             MediaPackageId: packages.packageName,
-            PackageName: packages.packageName
+            PackageName: packageName.packageName
           })
           this.doSubmit()
         })  

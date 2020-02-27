@@ -33,6 +33,11 @@ class Homepage extends Component {
         db.customer.clear();
         db.customerServices.clear();
         db.package.clear();
+        db.usage.clear();
+        db.currentPay.clear();
+        db.devices.clear();
+        db.application.clear();
+        db.packageName.clear();
 
         let thisSource = ''
         if(this.props.globalState.isBt) {
