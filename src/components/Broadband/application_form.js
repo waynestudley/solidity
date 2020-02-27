@@ -245,15 +245,13 @@ class ApplicationForm extends Component {
                                             })
                                             .then(response => {
                                                 db.open().then(async () => {
-                                                    await db.customer.update(1,{ 
+                                                    await db.application.put({ 
                                                         resultKey: response.data.Result,
-                                                        TelephoneNumber: values.phone,
-                                                        Firstname: values.firstName,
-                                                        Lastname: values.surName,
+                                                        telephone: values.phone,
+                                                        firstName: values.firstName,
+                                                        lastName: values.surName,
                                                     })
                                                 })
-                                                this.setState({ isSubmitted: false })
-                                                this.props.history.push('/thank_you')
                                             })
                                         } else {
                                             this.setState({ valTest: true });
@@ -279,11 +277,11 @@ class ApplicationForm extends Component {
                                 })
                                 .then(response => {
                                     db.open().then(async () => {
-                                        await db.customer.update(1,{ 
+                                        await db.application.put({ 
                                             resultKey: response.data.Result,
-                                            TelephoneNumber: values.phone,
-                                            Firstname: values.firstName,
-                                            Lastname: values.surName,
+                                            telephone: values.phone,
+                                            firstName: values.firstName,
+                                            lastName: values.surName,
                                         })
                                     })
                                     this.setState({ isSubmitted: false })

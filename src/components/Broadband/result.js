@@ -98,6 +98,7 @@ class Result extends Component {
             Aerial: customerServices.hasAerial,
             CanHaveVirgin: customerServices.canHaveVirgin
           })
+          db.package.clear()
           this.getQuote()
         })
       
@@ -197,7 +198,7 @@ class Result extends Component {
         await db.package.add({ 
           SelectedPackageId: packageId,
           PerfectPackage: bestPackage,
-          SuperCard: this.state.SuperCard,
+          SuperCard: this.state.SuperCard
         })
       })
       this.props.history.push('/package_summary');
