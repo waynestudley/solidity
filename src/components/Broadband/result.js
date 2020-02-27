@@ -144,7 +144,7 @@ class Result extends Component {
       })
       .then(response => {
           var dataArray = response.data.reverse();
-          insertLog(1, "Result Quote", JSON.stringify(dataArray));
+          insertLog(1, "Result Quote", "");
           this.setState({ fulldata: response.data });
           this.setState({ data: dataArray });
           this.setState({ bestPackage: response.data.slice(-1)[0] });
