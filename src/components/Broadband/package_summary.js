@@ -146,7 +146,6 @@ class PackageSummary extends Component {
           media_features: response.data[0].MediaFeatures,
           summaryLoaded: true
         });
-        alert(this.state.data.PackageName)
         db.open().then(async () => {
           await db.packageName.put({ 
             packageName: this.state.data.PackageName

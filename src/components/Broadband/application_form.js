@@ -252,6 +252,8 @@ class ApplicationForm extends Component {
                                                         lastName: values.surName,
                                                     })
                                                 })
+                                                this.setState({ isSubmitted: false })
+                                                this.props.history.push('/thank_you')
                                             })
                                         } else {
                                             this.setState({ valTest: true });
