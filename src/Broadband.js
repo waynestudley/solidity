@@ -92,7 +92,7 @@ class AppBroadband extends Component {
         })
         .catch(error => {
             if (error.response.status === 401) {
-                insertLog(3, "Error", "ststus 401" );
+                insertLog(3, "Error", "status 401" );
                 this.setState({ errorMessage: 'An error has occured, please try again in a few miniutes' })
                 this.setState({ isSubmitted: false })
             } else {
