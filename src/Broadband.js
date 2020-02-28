@@ -70,7 +70,7 @@ class AppBroadband extends Component {
                       CallcentreId: response.data.CallCentreId,
                       Name: response.data.Name,
                       loginData: JSON.stringify(response.data)
-                    })
+                    },0)
                 })
                 let userType = response.data.LoginSecurityGroup.split(",")
                 // CHECK FOR MULTI USER ROLE
@@ -102,6 +102,7 @@ class AppBroadband extends Component {
             }
         }
         );
+
       // Check that this agent has the role to perform a multi-journey - if not send them to the login page with no auth message
 
       this.setState({ isMultiJourney: true })
@@ -127,13 +128,14 @@ class AppBroadband extends Component {
                 }
             }
           }
-          //console.log("*** ", response.data)
+
           db.open().then(async () => {
           await db.userAgent.put({
             SalesAgentId: response.data.AgentNumber,
             CallcentreId: response.data.CallCentreId,
-            Name: response.data.AgentName
-          })
+            Name: response.data.AgentName,
+
+          },0)
           await db.customer.put({
             Title: response.data.Title,
             Firstname: response.data.Firstname,
@@ -151,7 +153,7 @@ class AppBroadband extends Component {
             TelephoneNumber: response.data.TelephoneNumber,
             EmailAddress: response.data.EmailAddress,
             energyAppId: energyAppId
-          })
+          },0)
         })
         window.location.hash = "/availability_checker"
       })

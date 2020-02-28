@@ -170,7 +170,7 @@ class Payment_Checker extends Component {
               }}
               onSubmit={(values) => {
                 db.open().then(async () => {
-                  await db.currentPay.put({ 
+                  await db.customer.update(0,{ 
                     currentMonthlyPayment: values.payment
                   }).then(() => {
                     this.props.history.push("/result");

@@ -86,7 +86,7 @@ class Login extends Component {
               CallcentreId: response.data.CallCentreId,
               Name: response.data.Name,
               loginData: JSON.stringify(response.data)
-            });
+            },0);
           });
 
           let userType = response.data.LoginSecurityGroup.split(",");

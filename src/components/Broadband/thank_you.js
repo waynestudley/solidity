@@ -37,16 +37,12 @@ class ThankYou extends Component {
             userAgent = userAgent[0]
             packages = await db.package.toArray()
             packages = packages[0]
-            application = await db.application.toArray()
-            application = application[0]
-            packageName = await db.packageName.toArray()
-            packageName = packageName[0]
         }).then(() => {
           this.setState({
-            Reference: application.resultKey,
-            Firstname: application.firstName,
-            Lastname: application.lastName,
-            HomePhone: application.telephone,
+            Reference: customer.resultKey,
+            Firstname: customer.firstName,
+            Lastname: customer.lastName,
+            HomePhone: customer.telephone,
             Title: customer.Title,
             energyAppId: customer.energyAppId,
             Address1: customer.Address1,
@@ -58,7 +54,7 @@ class ThankYou extends Component {
             SalesAgentId: userAgent.SalesAgentId,
             CallcentreId: userAgent.CallcentreId,
             MediaPackageId: packages.packageName,
-            PackageName: packageName.packageName
+            PackageName: packages.packageName
           })
           this.doSubmit()
         })  

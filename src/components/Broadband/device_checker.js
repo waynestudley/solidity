@@ -86,7 +86,7 @@ class Devices_Checker extends Component {
             numDevicesHighUse: HighUse,
             numDevicesMediumUse: MediumUse,
             numDevicesLowUse: LowUse
-          })
+          },0)
           .then(() => {
             let str = "H="+HighUse+",M="+MediumUse+",L="+LowUse;
             insertLog(1, "Device_checker Submit", str);
