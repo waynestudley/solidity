@@ -74,8 +74,6 @@ class Result extends Component {
             usage = usage[0]
             devices = await db.devices.toArray()
             devices = devices[0]
-            currentPay = await db.currentPay.toArray()
-            currentPay = currentPay[0]
         }).then(() => {
          // console.dir('currentPay',currentPay)
           this.setState({
@@ -94,7 +92,7 @@ class Result extends Component {
             HighUse: devices.numDevicesHighUse,
             MediumUse: devices.numDevicesMediumUse,
             LowUse: devices.numDevicesLowUse,
-            CurrentMonthlyPay: currentPay.currentMonthlyPayment,
+            CurrentMonthlyPay: customer.currentMonthlyPayment,
             Aerial: customerServices.hasAerial,
             CanHaveVirgin: customerServices.canHaveVirgin
           })
@@ -195,13 +193,14 @@ class Result extends Component {
     selectPackage(e, packageId, bestPackage) {
       e.preventDefault();
       db.open().then(async () => {
-        await db.package.add({ 
+        await db.package.put({ 
           SelectedPackageId: packageId,
           PerfectPackage: bestPackage,
           SuperCard: this.state.SuperCard
-        })
+        },0)
+        this.props.history.push('/package_summary');
       })
-      this.props.history.push('/package_summary');
+      
     }
 
     reset = () => {

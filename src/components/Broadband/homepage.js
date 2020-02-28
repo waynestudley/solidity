@@ -35,10 +35,7 @@ class Homepage extends Component {
         db.customerServices.clear();
         db.package.clear();
         db.usage.clear();
-        db.currentPay.clear();
         db.devices.clear();
-        db.application.clear();
-        db.packageName.clear();
 
         let thisSource = ''
         if(this.props.globalState.isBt) {
@@ -102,7 +99,7 @@ class Homepage extends Component {
                 Postcode: id.Postcode,
                 Town: id.Town,
                 County: id.County
-            }).then(() => {
+            },0).then(() => {
                 window.location.hash = "/availability_checker"
             })
         })

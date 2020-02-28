@@ -69,7 +69,6 @@ class Availability_Checker extends Component {
   componentDidMount() {
     db.customerServices.clear();
     db.usage.clear();
-    db.currentPay.clear();
     db.devices.clear();
 
     if (this.props.globalState.isMultiJourney) {
@@ -457,7 +456,7 @@ class Availability_Checker extends Component {
                         canHaveVirgin: this.props.globalState.isBtJourney
                           ? false
                           : this.state.canHaveVirgin
-                      })
+                      },0)
                       .then(() => {
                         this.props.history.push("/usage_checker");
                       });
@@ -1097,7 +1096,7 @@ class Availability_Checker extends Component {
                         canHaveVirgin: this.props.globalState.isBtJourney
                           ? false
                           : this.state.canHaveVirgin
-                      });
+                      },0);
                     })
                     .then(async () => {
                       await db.usage.put({
@@ -1110,17 +1109,17 @@ class Availability_Checker extends Component {
                         netflixCheck: this.state.netflixCheck,
                         primeCheck: this.state.primeCheck,
                         nowCheck: this.state.nowCheck
-                      });
+                      },0);
                     })
                     .then(async () => {
                       await db.devices.put({
                         numDevicesHighUse: this.state.NumDevicesHighUse,
                         numDevicesMediumUse: this.state.NumDevicesMediumUse,
                         numDevicesLowUse: this.state.NumDevicesLowUse
-                      });
+                      },0);
                     })
                     .then(async () => {
-                      await db.currentPay.put({
+                      await db.customer.update(0,{
                         currentMonthlyPayment: values.payment
                       });
                     });

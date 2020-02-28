@@ -64,8 +64,6 @@ class ApplicationForm extends Component {
             packages = packages[0]
             userAgent = await db.userAgent.toArray()
             userAgent = userAgent[0]
-            currentPay = await db.currentPay.toArray()
-            currentPay = currentPay[0]
         }).then(() => {
           this.setState({
             salesAgentId: userAgent.SalesAgentId,
@@ -86,7 +84,7 @@ class ApplicationForm extends Component {
             HighUse: customerServices.numDevicesHighUse,
             MediumUse: customerServices.numDevicesMediumUse,
             LowUse: customerServices.numDevicesLowUse,
-            CurrentMonthlyPay: currentPay.currentMonthlyPayment,
+            CurrentMonthlyPay: customer.currentMonthlyPayment,
             CanHaveVirgin: customerServices.canHaveVirgin,
             Aerial: customerServices.hasAerial,
             passed_id: packages.SelectedPackageId,
@@ -252,9 +250,9 @@ class ApplicationForm extends Component {
                                                         firstName: values.firstName,
                                                         lastName: values.surName,
                                                     })
+                                                    this.setState({ isSubmitted: false })
+                                                    this.props.history.push('/thank_you')
                                                 })
-                                                this.setState({ isSubmitted: false })
-                                                this.props.history.push('/thank_you')
                                             })
                                             .catch(error => {                                               
                                                 insertLog(3, "Validation/ValidateBankAccount", error );                                               
@@ -283,15 +281,16 @@ class ApplicationForm extends Component {
                                 })
                                 .then(response => {
                                     db.open().then(async () => {
-                                        await db.application.put({ 
+                                        await db.customer.update(0,{ 
                                             resultKey: response.data.Result,
                                             telephone: values.phone,
                                             firstName: values.firstName,
                                             lastName: values.surName,
                                         })
+                                        this.setState({ isSubmitted: false })
+                                        this.props.history.push('/thank_you')
                                     })
-                                    this.setState({ isSubmitted: false })
-                                    this.props.history.push('/thank_you')
+                                    
                                 }).catch(error => {                                               
                                     insertLog(3, "Media/SubmitApplication", error );                                               
                                 })

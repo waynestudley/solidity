@@ -53,7 +53,7 @@ class PackageSummary extends Component {
   }
 
   componentWillMount() {
-    db.packageName.clear();
+    //db.packageName.clear();
     let customer, customerServices, packages;
     db.open()
       .then(async function() {
@@ -112,7 +112,6 @@ class PackageSummary extends Component {
       });
       thisSource = "CC";
     }
-    
     insertLog(1, "Package_summary getQuote", JSON.stringify(this.state));
     axios
       .post(process.env.REACT_APP_API + "Media/Quote", {
@@ -146,10 +145,11 @@ class PackageSummary extends Component {
           media_features: response.data[0].MediaFeatures,
           summaryLoaded: true
         });
+        
         db.open().then(async () => {
-          await db.packageName.put({ 
+          await db.package.put({ 
             packageName: this.state.data.PackageName
-          })
+          },0)
         })
       });
       
