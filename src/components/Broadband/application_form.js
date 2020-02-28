@@ -244,7 +244,7 @@ class ApplicationForm extends Component {
                                             })
                                             .then(response => {
                                                 db.open().then(async () => {
-                                                    await db.application.put({ 
+                                                    await db.customer.update(0,{ 
                                                         resultKey: response.data.Result,
                                                         telephone: values.phone,
                                                         firstName: values.firstName,
@@ -253,6 +253,7 @@ class ApplicationForm extends Component {
                                                     this.setState({ isSubmitted: false })
                                                     this.props.history.push('/thank_you')
                                                 })
+                                                
                                             })
                                             .catch(error => {                                               
                                                 insertLog(3, "Validation/ValidateBankAccount", error );                                               
