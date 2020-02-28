@@ -155,7 +155,7 @@ class ApplicationForm extends Component {
         })
         .catch(error => {
             if (error.response) {
-                console.error("An error has occured - please try again.")
+                insertLog(3, "Application form quote error", error );
             }
         })
     }

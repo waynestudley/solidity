@@ -156,7 +156,7 @@ class AppBroadband extends Component {
         window.location.hash = "/availability_checker"
       })
       .catch(err => {
-          console.log(err)
+        insertLog(3, "Energy/GetApplicationDetail", err );
       })
     } else if (myParam === 'ss' || myParam === 'mex') {
       
@@ -177,7 +177,6 @@ class AppBroadband extends Component {
       })
       .catch(err => {
           insertLog(3, "Create Token failed", err );
-          console.log(err)
       })
     }
   }

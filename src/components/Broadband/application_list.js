@@ -20,7 +20,7 @@ class ApplicationList extends Component {
                 this.setState({ data: response.data });
             })
             .catch(err => {
-                console.log(err);
+                insertLog(3, "Media/GetApplicationList failed", err );
             });
     }
 
