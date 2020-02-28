@@ -213,6 +213,7 @@ class ApplicationForm extends Component {
                         onSubmit={(values) => {
                             this.trim();
                             if (!this.props.globalState.isBtJourney) {
+                                insertLog(1, "Validation/ValidateBankAccount", "" ); 
                                 this.setState({ isSubmitted: true });
                                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
                                 axios.post(process.env.REACT_APP_API + 'Validation/ValidateBankAccount?AllowTest=true&accountNumber=' + values.accountNumber.toString() + '&accountSortCode=' + values.sortcode.toString())
