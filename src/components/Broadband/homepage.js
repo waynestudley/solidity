@@ -4,6 +4,7 @@ import { withGlobalState } from 'react-globally';
 import axios from 'axios';
 import { Formik } from 'formik';
 import db from "./broadbandDatabase";
+import {insertLog} from "../../monitor";
 
 class Homepage extends Component {
     constructor(props) {
@@ -57,7 +58,7 @@ class Homepage extends Component {
                     this.setState({ data: response.data })
                 })
                 .catch(err => {
-                    console.log(err);
+                    insertLog(3, "Media/GetPromotionalPackageList", err );
                 })
             }
 
@@ -69,6 +70,9 @@ class Homepage extends Component {
                 this.props.setGlobalState(() => ({
                     outcomeList: response.data
                 }))
+            })
+            .catch(err => {
+                insertLog(3, "LeadOutcome/GetAll", err );
             })
         }
     }    

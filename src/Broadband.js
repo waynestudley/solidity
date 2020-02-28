@@ -85,8 +85,8 @@ class AppBroadband extends Component {
                 this.setState({ isSubmitted: false })
                 this.props.history.push('/start')
             } else {
-                insertLog(3, "Office/User doesn\'t have permission", "" );
-                this.setState({ errorMessage: 'Office/User doesn\'t have permission' })
+                insertLog(3, "Office/User doesn't have permission", "" );
+                this.setState({ errorMessage: "Office/User doesn't have permission" })
                 this.setState({ isSubmitted: false })
             }
         })
@@ -96,7 +96,7 @@ class AppBroadband extends Component {
                 this.setState({ errorMessage: 'An error has occured, please try again in a few miniutes' })
                 this.setState({ isSubmitted: false })
             } else {
-                insertLog(3, "Office/User doesn\'t have permission", "" );
+                insertLog(3, "Office/User doesn't have permission", "" );
                 this.setState({ errorMessage: 'Office/User doesn\'t have permission' })
                 this.setState({ isSubmitted: false })
             }

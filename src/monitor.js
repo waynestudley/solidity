@@ -1,5 +1,4 @@
 import { uuid } from "uuidv4";
-import axios from "axios";
 
 export function getSession() {
   return window.sessionStorage.getItem("sessionId");

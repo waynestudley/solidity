@@ -88,6 +88,9 @@ class ThankYou extends Component {
             .then(response => {
                 this.setState({ Reference: response.data.Result });
             })
+            .catch(error => {                                               
+                insertLog(3, "Media/SubmitApplication", error );                                               
+            })
         }
         // If a BT journey - auto submit the outcome
         if (this.props.globalState.isBtJourney ) {
@@ -106,6 +109,9 @@ class ThankYou extends Component {
             })
             .then(response => {
                 console.log(":: ", response.data, this.state.SalesAgentId)
+            })
+            .catch(error => {                                               
+                insertLog(3, "AgentLeadOutcome/Post", error );                                               
             })
         }
     }

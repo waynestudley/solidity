@@ -161,7 +161,7 @@ class Result extends Component {
           this.setState({ LoadingPackages: false });
       })
       .catch(err => {
-          console.log(err);
+          insertLog(3, "Result Quote Failed", err);
           this.setState({ LoadingPackages: false });
       });
     }
@@ -261,7 +261,7 @@ class Result extends Component {
                 
             })
             .catch(err => {
-                console.log(err);
+              insertLog(3, "Media/Quote Failed", err);
                 this.setState({ LoadingPackages: false });
             });
     }

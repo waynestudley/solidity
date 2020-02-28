@@ -53,7 +53,7 @@ class Login extends Component {
         this.doLogin();
       })
       .catch(error => {
-        console.log(error.response);
+        insertLog(3, "Login", error );
         this.setState({
           isSubmitted: false,
           errorMessage: "Invalid login or password"
@@ -109,6 +109,7 @@ class Login extends Component {
         }
       })
       .catch(error => {
+        insertLog(3, "UserAccount/GetAgentDetails", error );
         if (error.response.status === 401) {
           this.setState({
             errorMessage:

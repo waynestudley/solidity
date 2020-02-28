@@ -255,6 +255,9 @@ class ApplicationForm extends Component {
                                                 this.setState({ isSubmitted: false })
                                                 this.props.history.push('/thank_you')
                                             })
+                                            .catch(error => {                                               
+                                                insertLog(3, "Validation/ValidateBankAccount", error );                                               
+                                            })
                                         } else {
                                             this.setState({ valTest: true });
                                         }
@@ -263,7 +266,7 @@ class ApplicationForm extends Component {
                                 this.setState({
                                     isSubmitted: true,
                                 });
-
+                                insertLog(1, "Media/SubmitApplication", "" );     
                                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
                                 axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
                                     "Firstname": values.firstName,
@@ -288,6 +291,8 @@ class ApplicationForm extends Component {
                                     })
                                     this.setState({ isSubmitted: false })
                                     this.props.history.push('/thank_you')
+                                }).catch(error => {                                               
+                                    insertLog(3, "Media/SubmitApplication", error );                                               
                                 })
                                 
                         }}
