@@ -3,6 +3,7 @@ import SecondaryHeader from './secondary_header';
 
 import axios from 'axios';
 import { withGlobalState } from 'react-globally';
+import { insertLog } from "../../monitor";
 
 class ApplicationList extends Component {
     constructor(props) {
