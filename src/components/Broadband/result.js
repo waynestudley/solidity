@@ -64,7 +64,7 @@ class Result extends Component {
     }
 
     componentDidMount() {
-        let customer, customerServices, usage, devices, currentPay
+        let customer, customerServices, usage, devices
         db.open().then(async function(){
             customer = await db.customer.toArray()
             customer = customer[0]
@@ -426,7 +426,7 @@ class Result extends Component {
                   </div>
       
                   <div className="boost-supercard-wrapper">
-                    {!this.props.globalState.isBtJourney && (
+                    {this.props.globalState.isSupercard && (
                       <a
                         href=""
                         className="boost-supercard-link"
@@ -695,6 +695,9 @@ class Result extends Component {
                   {this.state.data.length}&nbsp;results
                 </div>
               </div>
+              {/* New filter by supplier */}
+
+
               <div
                 className={
                   this.state.withoutTv
@@ -862,16 +865,16 @@ class Result extends Component {
                             <h2>Free Supercard worth over &pound;2000 if you switch with us today</h2>
                             <p>With 12 months free Supercard membership, you can enjoy discounts and genuine freebies from some of the UK’s best-known brands.</p>
                             <div className='brand-logos-wrapper'>
-                                <img src={altonTowers} />
-                                <img src={argos} />
-                                <img src={currys} />
-                                <img src={gap} />
-                                <img src={halfords} />
-                                <img src={houseOfFraser} />
-                                <img src={merlinEntertainment} />
-                                <img src={pizzaExpress} />
-                                <img src={starbucks} />
-                                <img src={zizzi} />
+                                <img src={altonTowers} alt='altonTowers'/>
+                                <img src={argos} alt='argos'/>
+                                <img src={currys} alt='currys'/>
+                                <img src={gap} alt='gap'/>
+                                <img src={halfords} alt='halfords'/>
+                                <img src={houseOfFraser} alt='houseOfFraser'/>
+                                <img src={merlinEntertainment} alt='merlinEntertainment'/>
+                                <img src={pizzaExpress} alt='pizzaExpress'/>
+                                <img src={starbucks} alt='starbucks'/>
+                                <img src={zizzi} alt='zizzi'/>
                             </div>
                             <div className='supercard-list-wrapper'>
                                     <img src={supercard} />
