@@ -47,16 +47,20 @@ export function insertLog(level, description, message) {
   strMessage:	
   strSessionId:
   */
-
-  fetch("http://monitoringws.moneyexpert.com/systemmonitoring.asmx/InsertLogGetV2", {
-    method: "POST",
-    headers: { "content-type": "application/x-www-form-urlencoded" },
-    body: encodedDataToSend
-  })
-    .then(function(data) {
-      //console.log("Request success: ", data);
-    })
-    .catch(function(error) {
-      console.log("LogError: ", error);
-    });
+  if (hostname !== "f2f.moneyexpert.com") {
+    fetch(
+      "http://monitoringws.moneyexpert.com/systemmonitoring.asmx/InsertLogGetV2",
+      {
+        method: "POST",
+        headers: { "content-type": "application/x-www-form-urlencoded" },
+        body: encodedDataToSend
+      }
+    )
+      .then(function(data) {
+        //console.log("Request success: ", data);
+      })
+      .catch(function(error) {
+        console.log("LogError: ", error);
+      });
+  }
 }
