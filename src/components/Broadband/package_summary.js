@@ -149,7 +149,8 @@ class PackageSummary extends Component {
         db.open().then(async () => {
           await db.package.put({ 
             packageName: this.state.data.PackageName,
-            SelectedPackageId: this.state.passed_id
+            SelectedPackageId: this.state.passed_id,
+            Speed: this.props.globalState.btSpeed
           },0)
         })
       });
