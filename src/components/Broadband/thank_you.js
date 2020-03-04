@@ -38,11 +38,12 @@ class ThankYou extends Component {
             packages = await db.package.toArray()
             packages = packages[0]
         }).then(() => {
-          this.setState({
+            //console.dir(customer)
+           this.setState({
             Reference: customer.resultKey,
             Firstname: customer.firstName,
             Lastname: customer.lastName,
-            HomePhone: customer.telephone,
+            HomePhone: customer.TelephoneNumber,
             Title: customer.Title,
             energyAppId: customer.energyAppId,
             Address1: customer.Address1,
