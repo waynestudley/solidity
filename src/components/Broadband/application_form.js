@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+﻿import React, { Component } from 'react'
 import SignatureCanvas from 'react-signature-canvas'
 import { Formik, Form } from 'formik'
 import axios from 'axios'
@@ -246,9 +246,9 @@ class ApplicationForm extends Component {
                                                 db.open().then(async () => {
                                                     await db.customer.update(0,{ 
                                                         resultKey: response.data.Result,
-                                                        telephone: values.phone,
-                                                        firstName: values.firstName,
-                                                        lastName: values.surName,
+                                                        TelephoneNumber: values.phone,
+                                                        Firstname: values.firstName,
+                                                        Lastname: values.surName,
                                                     })
                                                     this.setState({ isSubmitted: false })
                                                     this.props.history.push('/thank_you')
@@ -284,9 +284,9 @@ class ApplicationForm extends Component {
                                     db.open().then(async () => {
                                         await db.customer.update(0,{ 
                                             resultKey: response.data.Result,
-                                            telephone: values.phone,
-                                            firstName: values.firstName,
-                                            lastName: values.surName,
+                                            TelephoneNumber: values.phone,
+                                            Firstname: values.firstName,
+                                            Lastname: values.surName,
                                         })
                                         this.setState({ isSubmitted: false })
                                         this.props.history.push('/thank_you')

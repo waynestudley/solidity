@@ -180,6 +180,31 @@ class AppBroadband extends Component {
       .catch(err => {
           insertLog(3, "Create Token failed", err );
       })
+    } else if (myParam === 'telesales') {
+      insertLog(1, "myParam:"+ myParam, "" );
+      this.setState({ theme: myParam })  
+      apiEndpointLogin += 'auth/createtoken?username=bbwebuser&password=l0nd0n'
+      axios.post(apiEndpointLogin)
+      .then(response => {
+          this.props.setGlobalState(() => ({
+              journeyTheme: myParam,
+              isBt: true,
+              isWeb: true,
+              jwtAuth: response.data
+          }))
+          db.open().then(async () => {
+            await db.userAgent.put({
+              SalesAgentId: '0',
+              CallcentreId: '0',
+              Name: 'Telesales',
+              loginData: JSON.stringify(response.data)
+            },0)
+        })
+          window.location.hash = "/start"
+      })
+      .catch(err => {
+          console.log(err)
+      })
     }
   }
 

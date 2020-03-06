@@ -29,7 +29,7 @@ class ThankYou extends Component {
     }
 
     componentDidMount() {
-        let customer, packages, userAgent, application, packageName
+        let customer, packages, userAgent
         db.open().then(async function(){
             customer = await db.customer.toArray()
             customer = customer[0]
@@ -41,8 +41,8 @@ class ThankYou extends Component {
             //console.dir(customer)
            this.setState({
             Reference: customer.resultKey,
-            Firstname: customer.firstName,
-            Lastname: customer.lastName,
+            Firstname: customer.Firstname,
+            Lastname: customer.Lastname,
             HomePhone: customer.TelephoneNumber,
             Title: customer.Title,
             energyAppId: customer.energyAppId,
@@ -54,7 +54,7 @@ class ThankYou extends Component {
             Email: customer.EmailAddress,
             SalesAgentId: userAgent.SalesAgentId,
             CallcentreId: userAgent.CallcentreId,
-            MediaPackageId: packages.packageName,
+            MediaPackageId: packages.SelectedPackageId,
             PackageName: packages.packageName
           })
           this.doSubmit()
@@ -114,6 +114,11 @@ class ThankYou extends Component {
     }
     
     render() {
+        console.log("this.state.Reference : " + this.state.Reference )
+        console.log("this.state.Firstname : " + this.state.Firstname )
+        console.log("this.state.Lastname : " + this.state.Lastname )
+        console.log("this.state.HomePhone : " + this.state.HomePhone )
+        console.log("this.state.PackageName : " + this.state.PackageName )
         return (
             <div>
                 <SecondaryHeader isShowNewQuote={true}/>

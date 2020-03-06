@@ -204,6 +204,9 @@ class PackageSummary extends Component {
     if (this.props.globalState.isMultiJourney) {
       contButtonText = "Submit Application";
       contLink = "/thank_you";
+    } else if (this.props.globalState.journeyTheme === 'telesales') {
+      contButtonText = "New Application";
+      contLink = "/start";
     } else {
       contButtonText = "Continue";
       contLink = "/application_form";

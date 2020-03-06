@@ -1,18 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import supercard from '../../images/Supercard/supercardimage.png';
-import altonTowers from '../../images/Supercard/alton-towers.jpg';
-import argos from '../../images/Supercard/argos.jpg';
-import currys from '../../images/Supercard/currys.jpg';
-import gap from '../../images/Supercard/gap.jpg';
 import { withGlobalState } from 'react-globally';
-import halfords from '../../images/Supercard/halfords.jpg';
-import houseOfFraser from '../../images/Supercard/house-of-fraser.jpg';
-import merlinEntertainment from '../../images/Supercard/merlin-entertainment.jpg';
-import pizzaExpress from '../../images/Supercard/pizza-express.jpg';
-import starbucks from '../../images/Supercard/starbucks.jpg';
-import zizzi from '../../images/Supercard/zizzi.jpg';
 import SecondaryHeader from './secondary_header';
 import Outcome from './outcome';
 import db from "./broadbandDatabase";
@@ -53,9 +42,7 @@ class Result extends Component {
             CanHaveVirgin: null,
             toggleFeatures: '0',
             suitablePackages: true,
-            SuperCard: false,
             LoadingPackages: true,
-            super_card: 'supercard',
             resetClicked: true,
             withoutTv: true,
             withTv: true,
@@ -75,7 +62,6 @@ class Result extends Component {
             devices = await db.devices.toArray()
             devices = devices[0]
         }).then(() => {
-         // console.dir('currentPay',currentPay)
           this.setState({
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
@@ -164,10 +150,6 @@ class Result extends Component {
       });
     }
 
-    handleSuperCard = (e) => {
-        this.setState({ SuperCard: e.target.checked.toString() });
-    }
-
     toogleAllPackages(e) {
         e.preventDefault();
         this.setState({ showResults: !this.state.showResults });
@@ -196,7 +178,6 @@ class Result extends Component {
         await db.package.put({ 
           SelectedPackageId: packageId,
           PerfectPackage: bestPackage,
-          SuperCard: this.state.SuperCard
         },0)
         this.props.history.push('/package_summary');
       })
@@ -425,24 +406,7 @@ class Result extends Component {
                     </div>
                   </div>
       
-                  <div className="boost-supercard-wrapper">
-                    {this.props.globalState.isSupercard && (
-                      <a
-                        href=""
-                        className="boost-supercard-link"
-                        onClick={e => openModal(e, this.state.super_card)}
-                      >
-                        <span>Free!</span>
-                      </a>
-                    )}
-                    <a
-                      href="#"
-                      onClick={e => this.selectPackage(e, item.Id, false)}
-                      className="link-btn"
-                    >
-                      Order
-                    </a>
-                  </div>
+      
                   <div className="provider-info">
                     {item.MediaProvider.ProviderName === "Virgin Media"
                       ? item.MediaProvider.ProviderInfo
@@ -520,24 +484,6 @@ class Result extends Component {
 
                     <div className='feature-wrapper top-result'>
                         <div className='perfect-package-outer-wrapper'>
-
-                            {/* supercard top box */}
-                            {/*<div className='perfect-package-wrapper supercard'>
-                                <div className="supercard-header-wrapper">
-                                    <p>If you take any package then you will be entitled to a <strong>free Supercard</strong>. The card will give you access to approximately &pound;2,000 worth of savings across days out, travel, Food and Drink and much, much more. <a className='dotted-link' href='#open-modal1'>Learn&nbsp;more</a></p>
-                                </div>
-                                <div className="supercard-image-wrapper">
-                                    <img src={superCard} alt='Supercard' />
-                                </div>
-                                <div className='form-row natural-checkbox-wrapper'>
-                                    <form>
-                                        <label htmlFor='tickYes' className='radio-label'>
-                                            <input id='tickYes' name='tickQuestion' type='checkbox' checked={this.state.SuperCard === "true"} onChange={this.handleSuperCard} />Please send me my supercard with 12 months FREE membership.</label>
-                                    </form>
-                                </div>
-
-                            </div>*/}
-                            {/* end supercard top box */}
 
                             {/* top box - value */}
                             <div className='perfect-package-wrapper'>
@@ -664,8 +610,7 @@ class Result extends Component {
                 href="#"
                 onClick={e => this.toogleAllPackages(e)}
                 style={
-                  this.state.showResults === false &&
-                  !this.props.globalState.isWeb
+                  this.state.showResults === false 
                     ? { display: "block" }
                     : { display: "none" }
                 }
@@ -856,38 +801,6 @@ class Result extends Component {
                     </div>
                     {/*end modal window*/}
 
-                    {/*modal window*/}
-                    <div id='supercard' className='modal-window'>
-                        <a href='#' className='background-close' onClick={(e) => closeModal(e, 'supercard')} />
-                        <div>
-                            <a href='#' title='CloseButton' className='modal-close' onClick={(e) => closeModal(e, 'supercard')} />
-                        <div className='supercard-wrapper'>
-                            <h2>Free Supercard worth over &pound;2000 if you switch with us today</h2>
-                            <p>With 12 months free Supercard membership, you can enjoy discounts and genuine freebies from some of the UK’s best-known brands.</p>
-                            <div className='brand-logos-wrapper'>
-                                <img src={altonTowers} alt='altonTowers'/>
-                                <img src={argos} alt='argos'/>
-                                <img src={currys} alt='currys'/>
-                                <img src={gap} alt='gap'/>
-                                <img src={halfords} alt='halfords'/>
-                                <img src={houseOfFraser} alt='houseOfFraser'/>
-                                <img src={merlinEntertainment} alt='merlinEntertainment'/>
-                                <img src={pizzaExpress} alt='pizzaExpress'/>
-                                <img src={starbucks} alt='starbucks'/>
-                                <img src={zizzi} alt='zizzi'/>
-                            </div>
-                            <div className='supercard-list-wrapper'>
-                                    <img src={supercard} />
-                                <ul>
-                                    <li>Free 12 month Dining card - Gourmet Society</li>
-                                    <li>4% discount at Tesco</li>
-                                    <li>Up to 40% off cinema tickets at Vue, Odeon, Showcase and Empire</li>
-                                    <li>Free and discounted pamper treatments</li>
-                                </ul>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
 
                     { this.props.globalState.isBtJourney &&
                         <Outcome />

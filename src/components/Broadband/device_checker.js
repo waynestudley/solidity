@@ -96,6 +96,32 @@ class Devices_Checker extends Component {
     }
   };
 
+  onChange = (e) => {
+    console.log("ON CHANGE", e.target.value)
+    var HighUse = 0;
+    if(e.target.value === '1') {
+      HighUse = 1;
+    } else if (e.target.value === '2') {
+      HighUse = 5;
+    } else if (e.target.value === '3') {
+      HighUse = 9;
+    }
+
+    db.open().then(async () => {
+      await db.devices
+        .put({
+          numDevicesHighUse: HighUse,
+          numDevicesMediumUse: 0,
+          numDevicesLowUse: 0
+        },0)
+        .then(() => {
+          let str = "H="+HighUse;
+          insertLog(1, "Device_checker Submit", str);
+          this.props.history.push("/payment_checker");
+        });
+    });
+  }
+
   getOptionList = () => {
     return (
       <>
@@ -164,223 +190,250 @@ class Devices_Checker extends Component {
           <div className="question-wrapper">
             <h2>Now tell us about your connected devices...</h2>
           </div>
+          
+          {this.props.globalState.journeyTheme !== 'telesales' ?
+          <div>
+            <div className="question-wrapper numbered-boxes">
+              <h3>
+                How many devices do you have connected to your wi-fi?&nbsp;
+                <span
+                  className="validation_text"
+                  style={
+                    this.state.errorMessage !== ""
+                      ? { display: "inline-block" }
+                      : { display: "none" }
+                  }
+                >
+                  {this.state.errorMessage}
+                </span>
+              </h3>
 
-          <div className="question-wrapper numbered-boxes">
-            <h3>
-              How many devices do you have connected to your wi-fi?&nbsp;
-              <span
-                className="validation_text"
-                style={
-                  this.state.errorMessage !== ""
-                    ? { display: "inline-block" }
-                    : { display: "none" }
+              <div
+                className={
+                  this.state.mobile > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
                 }
               >
-                {this.state.errorMessage}
-              </span>
-            </h3>
+                <div className="icon-select-inner-wrapper">
+                  <label>Mobile phones</label>
+                  <div className="icon-wrapper icon-mobile-phone">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeMobile}
+                      value={this.state.mobile || ""}
+                    >
+                      {this.getOptionList()}
+                    </select>
+                  </div>
+                </div>
+              </div>
 
-            <div
-              className={
-                this.state.mobile > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Mobile phones</label>
-                <div className="icon-wrapper icon-mobile-phone">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeMobile}
-                    value={this.state.mobile || ""}
-                  >
+              <div
+                className={
+                  this.state.tablets > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Tablets</label>
+                  <div className="icon-wrapper icon-tablet">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeTablets}
+                      value={this.state.tablets || ""}
+                    >
+                      {this.getOptionList()}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className={
+                  this.state.laptops > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Laptops</label>
+                  <div className="icon-wrapper icon-laptop">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeLaptops}
+                      value={this.state.laptops || ""}
+                    >
+                      {this.getOptionList()}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="question-wrapper numbered-boxes">
+              <div
+                className={
+                  this.state.tvs > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Smart TVs</label>
+                  <div className="icon-wrapper icon-smart-tv">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeTvs}
+                      value={this.state.tvs || ""}
+                    >
+                      {this.getOptionList()}
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                className={
+                  this.state.consoles > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Game consoles</label>
+                  <div className="icon-wrapper icon-game-console">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeConsoles}
+                      value={this.state.consoles || ""}
+                    >
                     {this.getOptionList()}
-                  </select>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              className={
-                this.state.tablets > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Tablets</label>
-                <div className="icon-wrapper icon-tablet">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeTablets}
-                    value={this.state.tablets || ""}
-                  >
+              <div
+                className={
+                  this.state.watches > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Smart watches</label>
+                  <div className="icon-wrapper icon-smart-watch">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeWatches}
+                      value={this.state.watches || ""}
+                    >
                     {this.getOptionList()}
-                  </select>
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div
-              className={
-                this.state.laptops > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Laptops</label>
-                <div className="icon-wrapper icon-laptop">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeLaptops}
-                    value={this.state.laptops || ""}
-                  >
+            <div className="question-wrapper numbered-boxes">
+              <div
+                className={
+                  this.state.hubs > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Home hubs</label>
+                  <div className="icon-wrapper icon-home-hub">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeHubs}
+                      value={this.state.hubs || ""}
+                    >
                     {this.getOptionList()}
-                  </select>
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div className="question-wrapper numbered-boxes">
-            <div
-              className={
-                this.state.tvs > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Smart TVs</label>
-                <div className="icon-wrapper icon-smart-tv">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeTvs}
-                    value={this.state.tvs || ""}
-                  >
-                    {this.getOptionList()}
-                  </select>
+              <div
+                className={
+                  this.state.speakers > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Streaming speakers</label>
+                  <div className="icon-wrapper icon-streaming">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeSpeakers}
+                      value={this.state.speakers || ""}
+                    >
+                      {this.getOptionList()}
+                    </select>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div
-              className={
-                this.state.consoles > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Game consoles</label>
-                <div className="icon-wrapper icon-game-console">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeConsoles}
-                    value={this.state.consoles || ""}
-                  >
-                   {this.getOptionList()}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={
-                this.state.watches > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Smart watches</label>
-                <div className="icon-wrapper icon-smart-watch">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeWatches}
-                    value={this.state.watches || ""}
-                  >
-                   {this.getOptionList()}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="question-wrapper numbered-boxes">
-            <div
-              className={
-                this.state.hubs > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Home hubs</label>
-                <div className="icon-wrapper icon-home-hub">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeHubs}
-                    value={this.state.hubs || ""}
-                  >
-                   {this.getOptionList()}
-                  </select>
+              <div
+                className={
+                  this.state.meters > 0
+                    ? "icon-select-wrapper selected"
+                    : "icon-select-wrapper"
+                }
+              >
+                <div className="icon-select-inner-wrapper">
+                  <label>Smart meters</label>
+                  <div className="icon-wrapper icon-smart-meter">
+                    <select
+                      className="with-icon"
+                      onChange={this.changeMeters}
+                      value={this.state.meters || ""}
+                    >
+                      {this.getOptionList()}
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div
-              className={
-                this.state.speakers > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Streaming speakers</label>
-                <div className="icon-wrapper icon-streaming">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeSpeakers}
-                    value={this.state.speakers || ""}
-                  >
-                    {this.getOptionList()}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={
-                this.state.meters > 0
-                  ? "icon-select-wrapper selected"
-                  : "icon-select-wrapper"
-              }
-            >
-              <div className="icon-select-inner-wrapper">
-                <label>Smart meters</label>
-                <div className="icon-wrapper icon-smart-meter">
-                  <select
-                    className="with-icon"
-                    onChange={this.changeMeters}
-                    value={this.state.meters || ""}
-                  >
-                    {this.getOptionList()}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <Link
+            <Link
             to="/payment_checker"
             className="link-btn"
             onClick={this.validateStep}
-          >
+            >
             Continue
-          </Link>
+            </Link>
+          </div>
+
+          
+
+          :
+
+          // LOW/HIGH/MEDIUM COMBO FOR TELESALES
+          <div className='question-wrapper select wide' >
+              <select
+                  className='postcode-lookup'
+                  name="outcome"
+                  style={{width: '27%'}}
+                  onChange={this.onChange}
+              >
+                  <option value="" defaultValue>Usage</option>
+                  <option value="1" defaultValue>Low</option>
+                  <option value="2" defaultValue>Medium</option>
+                  <option value="3" defaultValue>High</option>
+
+              </select>
+          </div>
+          
+          }
+
+          
         </div>
         {this.props.globalState.isBtJourney && <Outcome />}
       </div>
