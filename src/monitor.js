@@ -1,5 +1,18 @@
 import { uuid } from "uuidv4";
 
+/*
+ * Set Global onError handlers
+ */
+window.onerror = function(message, source, lineno, colno, error) {
+  insertLog(3, message, source + ", " + lineno + ":" + colno + ", " + error);
+  return true;
+};
+
+window.onunhandledrejection = function(message, source, lineno, colno, error) {
+  insertLog(3, message, source + ", " + lineno + ":" + colno + ", " + error);
+  return true;
+};
+
 export function getSession() {
   return window.sessionStorage.getItem("sessionId");
 }
@@ -19,6 +32,7 @@ export function insertLog(level, description, message) {
 
   let applicationId = 117; //dev
   const hostname = window.location.hostname;
+
   if (hostname === "testf2f.moneyexpert.com") {
     applicationId = 116; //test
   } else if (hostname === "f2f.moneyexpert.com") {
@@ -47,6 +61,7 @@ export function insertLog(level, description, message) {
   strMessage:	
   strSessionId:
   */
+
   if (hostname !== "f2f.moneyexpert.com") {
     fetch(
       "http://monitoringws.moneyexpert.com/systemmonitoring.asmx/InsertLogGetV2",
