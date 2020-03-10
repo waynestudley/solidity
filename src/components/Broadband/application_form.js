@@ -23,6 +23,9 @@ class ApplicationForm extends Component {
             media_provider: '',
             Postcode: '',
             Address1: null,
+            Address2: null, 
+            Town: null, 
+            County: null,
             CurrentProviderId: '',
             CurrentProviderMonths: '',
             Broadband: '',
@@ -48,6 +51,10 @@ class ApplicationForm extends Component {
             suitablePackages: true,
             SuperCard: false,
             isSubmitted: false,
+            firstName: '',
+            lastName: '',
+            title: '',
+            telephone: ''
         }
         this.LogoPath = process.env.PUBLIC_URL
         this.trim = this.trim.bind(this)
@@ -69,6 +76,9 @@ class ApplicationForm extends Component {
             salesAgentId: userAgent.SalesAgentId,
             callCenterId: userAgent.CallcentreId,
             Address1: customer.Address1,
+            Address2: customer.Address2,
+            Town: customer.Town,
+            County: customer.County,
             Postcode: customer.Postcode,
             CurrentProviderId: customerServices.provider,
             CurrentProviderMonths: customerServices.total,
@@ -89,7 +99,12 @@ class ApplicationForm extends Component {
             Aerial: customerServices.hasAerial,
             passed_id: packages.SelectedPackageId,
             perfect: packages.PerfectPackage,
-            SuperCard: packages.SuperCard
+            SuperCard: packages.SuperCard,
+            firstName: customer.Firstname,
+            lastName: customer.Lastname,
+            title: customer.Title,
+            telephone: customer.TelephoneNumber,
+            email: customer.EmailAddress
           })
           this.getQuote()
         }) 
@@ -175,13 +190,13 @@ class ApplicationForm extends Component {
                 {this.state.data !== "" && this.state.media_provider !== "" && (
                     <Formik
                         initialValues={{
-                            title: 'Mr',
-                            firstName: '',
-                            surName: '',
+                            title: this.state.title,
+                            firstName: this.state.firstName,
+                            surName: this.state.lastName,
                             address: this.state.Address1,
                             postcode: this.state.Postcode.toUpperCase(),
-                            email: '',
-                            phone: '',
+                            email: this.state.email,
+                            phone: this.state.telephone,
                             accountName: '',
                             sortcode: '',
                             accountNumber: ''
@@ -189,7 +204,7 @@ class ApplicationForm extends Component {
                         validate={values => {
 
                             const errors = {};
-                            if (!values.title) errors.title = 'Required';
+                            //if (!values.title) errors.title = 'Required';
                             if (!values.firstName) errors.firstName = 'Required';
                             if (!values.surName) errors.surName = 'Required';
                             if (!this.props.globalState.isBtJourney) {
@@ -223,6 +238,9 @@ class ApplicationForm extends Component {
                                                 "Firstname": values.firstName,
                                                 "Surname": values.surName,
                                                 "Address1": this.state.Address1,
+                                                "Address2": this.state.Address2,
+                                                "Town": this.state.Town,
+                                                "County": this.state.County,
                                                 "Postcode": this.state.Postcode,
                                                 "HomePhone": values.phone,
                                                 "Email": values.email,
@@ -273,6 +291,7 @@ class ApplicationForm extends Component {
                                     "Surname": values.surName,
                                     "Address1": this.state.Address1,
                                     "Address2": this.state.Address2,
+                                    "County": this.state.County,
                                     "Postcode": this.state.Postcode,
                                     "HomePhone": values.phone,
                                     "SalesAgentId": this.state.salesAgentId,

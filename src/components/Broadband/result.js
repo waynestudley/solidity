@@ -64,6 +64,7 @@ class Result extends Component {
         }).then(() => {
           this.setState({
             Postcode: customer.Postcode,
+            CurrentMonthlyPay: customer.currentMonthlyPayment,
             CurrentProviderId: customerServices.provider,
             CurrentProviderMonths: customerServices.total,
             Broadband: usage.broadbandCheck,
@@ -78,7 +79,6 @@ class Result extends Component {
             HighUse: devices.numDevicesHighUse,
             MediumUse: devices.numDevicesMediumUse,
             LowUse: devices.numDevicesLowUse,
-            CurrentMonthlyPay: customer.currentMonthlyPayment,
             Aerial: customerServices.hasAerial,
             CanHaveVirgin: customerServices.canHaveVirgin
           })
@@ -96,11 +96,10 @@ class Result extends Component {
           Aerial: false,
           CanHaveVirgin: false
         })
-          thisSource = 'BT'
+        thisSource = 'BT'
       } else if (this.props.globalState.isWeb) {
-          thisSource = 'WS'
+        thisSource = 'WS'
       } else {
-        
         thisSource = 'CC'
       }
 
@@ -125,7 +124,7 @@ class Result extends Component {
         "HasAerial": this.state.Aerial,
         "CanHaveVirgin": this.state.CanHaveVirgin,
         "source": thisSource,
-        "speed": this.props.globalState.isBtJourney ? parseInt(this.props.globalState.btSpeed.replace('up to ', '').replace('Mbps',''))  : 0
+        "speed": 0
       })
       .then(response => {
           var dataArray = response.data.reverse();
@@ -201,49 +200,48 @@ class Result extends Component {
 
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
         axios.post(process.env.REACT_APP_API + 'Media/Quote',
-            {
-                "Postcode": this.state.Postcode,
-                "CurrentProviderId": this.state.CurrentProviderId,
-                "CurrentProviderMonths": this.state.CurrentProviderMonths,
+          {
+            "Postcode": this.state.Postcode,
+            "CurrentProviderId": this.state.CurrentProviderId,
+            "CurrentProviderMonths": this.state.CurrentProviderMonths,
 
-                "CurrentMediaPackageBroadband": this.state.Broadband,
-                "CurrentMediaPackagePhone": this.state.Phone,
-                "CurrentMediaPackageTV": this.state.TV,
+            "CurrentMediaPackageBroadband": this.state.Broadband,
+            "CurrentMediaPackagePhone": this.state.Phone,
+            "CurrentMediaPackageTV": this.state.TV,
 
-                "CurrentTVPackagesMovies": this.state.Movies,
-                "CurrentTVPackagesSports": this.state.Sports,
-                "CurrentTVPackagesEntertainment": this.state.Entertainment,
+            "CurrentTVPackagesMovies": this.state.Movies,
+            "CurrentTVPackagesSports": this.state.Sports,
+            "CurrentTVPackagesEntertainment": this.state.Entertainment,
 
-                "CurrentStreamServicesNetflix": this.state.Netflix,
-                "CurrentStreamServicesPrime": this.state.Prime,
-                "CurrentStreamServicesNowTV": this.state.NowTV,
+            "CurrentStreamServicesNetflix": this.state.Netflix,
+            "CurrentStreamServicesPrime": this.state.Prime,
+            "CurrentStreamServicesNowTV": this.state.NowTV,
 
-                "NumDevicesHighUse": this.state.HighUse,
-                "NumDevicesMediumUse": this.state.MediumUse,
-                "NumDevicesLowUse": this.state.LowUse,
+            "NumDevicesHighUse": this.state.HighUse,
+            "NumDevicesMediumUse": this.state.MediumUse,
+            "NumDevicesLowUse": this.state.LowUse,
 
-                "CurrentMonthlyPay": this.state.CurrentMonthlyPay,
-                "HasAerial": this.props.globalState.isMultiJourney ? true : this.state.Aerial,
-                "CanHaveVirgin": this.props.globalState.isMultiJourney ? true : this.state.CanHaveVirgin,
-                "source": thisSource
-            })
-            .then(response => {
-              this.setState({ fulldata: response.data });
-              var dataArray = response.data.reverse();
-              this.setState({ data: dataArray,
-                bestPackage: response.data.slice(-1)[0],
-                fullPackage: response.data[0],
-                bestPackageProvider: this.state.bestPackage.MediaProvider,
-                bestPackageId: this.state.bestPackage.Id,
-                fullPackageProvider: this.state.fullPackage.MediaProvider,
-                fullyLoadedPackageId: this.state.fullPackage.Id,
-                LoadingPackages: false });
-                
-            })
-            .catch(err => {
-              insertLog(3, "Media/Quote Failed", err);
-                this.setState({ LoadingPackages: false });
-            });
+            "CurrentMonthlyPay": this.state.CurrentMonthlyPay,
+            "HasAerial": this.props.globalState.isMultiJourney ? true : this.state.Aerial,
+            "CanHaveVirgin": this.props.globalState.isMultiJourney ? true : this.state.CanHaveVirgin,
+            "source": thisSource
+          })
+          .then(response => {
+            this.setState({ fulldata: response.data });
+            var dataArray = response.data.reverse();
+            this.setState({ data: dataArray,
+              bestPackage: response.data.slice(-1)[0],
+              fullPackage: response.data[0],
+              bestPackageProvider: this.state.bestPackage.MediaProvider,
+              bestPackageId: this.state.bestPackage.Id,
+              fullPackageProvider: this.state.fullPackage.MediaProvider,
+              fullyLoadedPackageId: this.state.fullPackage.Id,
+              LoadingPackages: false });
+          })
+          .catch(err => {
+            insertLog(3, "Media/Quote Failed", err);
+            this.setState({ LoadingPackages: false });
+          });
     }
 
     withTV = () => {
@@ -404,6 +402,14 @@ class Result extends Component {
                       <br />
                       &pound;{parseFloat(item.TotalSavings).toFixed(2)}
                     </div>
+                    <br/>
+                    <a
+                      href="#"
+                      onClick={e => this.selectPackage(e, item.Id, false)}
+                      className="link-btn"
+                    >
+                      Order
+                    </a>
                   </div>
       
       
@@ -584,6 +590,8 @@ class Result extends Component {
                       )}
                     </strong>
                   </div>
+
+                  
 
                   <div className="topbox-button-wrapper">
                     <a

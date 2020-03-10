@@ -80,7 +80,7 @@ class Homepage extends Component {
     }
 
     selectAddress(id) {
-        if (id.Speed && this.props.globalState.isBt) {
+        if (this.props.globalState.isBt) {
             this.props.setGlobalState(() => ({
                 isBtJourney: true,
                 btSpeed: id.Speed
@@ -98,7 +98,7 @@ class Homepage extends Component {
                 Address3: id.Address3,
                 Postcode: id.Postcode,
                 Town: id.Town,
-                County: id.County
+                County: id.County,
             },0).then(() => {
                 window.location.hash = "/availability_checker"
             })
@@ -201,9 +201,11 @@ class Homepage extends Component {
                                                 <p
                                                     key={'addressId' + index}
                                                     onClick={() => this.selectAddress(address)}
+                                                    // className={`lookup_data ${this.props.globalState.isBt ? 'active' : ''}`}
                                                     className={`lookup_data ${this.props.globalState.isBt && address.Speed ? 'active' : ''}`}
                                                 >
                                                     { address.Address1 + " " + address.Address2 + (this.props.globalState.isBt && address.Speed ? " - up to " + address.Speed + 'Mbps' : '') }
+                                                    {/* { address.Address1 + " " + address.Address2 } */}
                                                 </p>
                                             )) }
                                         </div>

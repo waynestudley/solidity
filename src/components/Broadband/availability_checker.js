@@ -1084,6 +1084,10 @@ class Availability_Checker extends Component {
                   //availability checker
 
                   db.open()
+                  .then(async () => {
+                    await db.customer.update(0,{
+                      currentMonthlyPayment: values.payment
+                    })
                     .then(async () => {
                       await db.customerServices.put({
                         years: this.state.years,
@@ -1118,11 +1122,8 @@ class Availability_Checker extends Component {
                         numDevicesLowUse: this.state.NumDevicesLowUse
                       },0);
                     })
-                    .then(async () => {
-                      await db.customer.update(0,{
-                        currentMonthlyPayment: values.payment
-                      });
-                    });
+                  })
+                    
 
                   this.setState({ payment: values.payment });
                   if(this.state.payment) {

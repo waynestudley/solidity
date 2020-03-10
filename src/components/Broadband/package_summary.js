@@ -201,10 +201,13 @@ class PackageSummary extends Component {
 
     var contButtonText;
     var contLink;
-    if (this.props.globalState.isMultiJourney) {
-      contButtonText = "Submit Application";
-      contLink = "/thank_you";
-    } else if (this.props.globalState.journeyTheme === 'telesales') {
+
+    // if (this.props.globalState.isMultiJourney && this.state.bankDetails) {
+    //   contButtonText = "Submit Application";
+    //   contLink = "/thank_you";
+    // } else
+    
+    if (this.props.globalState.journeyTheme === 'telesales') {
       contButtonText = "New Application";
       contLink = "/start";
     } else {
