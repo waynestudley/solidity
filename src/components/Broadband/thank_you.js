@@ -63,32 +63,32 @@ class ThankYou extends Component {
 
     doSubmit() {
         // If a multi journey - submit the application
-        if (this.props.globalState.isMultiJourney) {
-            insertLog(1, "Thank_you Multi Submit", JSON.stringify(this.state));
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
-            axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
-                "Title": this.state.Title,
-                "Firstname": this.state.Firstname,
-                "Surname": this.state.Lastname,
-                "Address1": this.state.Address1,
-                "Address2": this.state.Address2,
-                "Postcode": this.state.Postcode,
-                "HomePhone": this.state.HomePhone,
-                "Email": this.state.Email,
-                "SalesAgentId": this.state.SalesAgentId,
-                "CallcentreId": this.state.CallcentreId,
-                "MediaPackageId": this.state.MediaPackageId,
-                "EnergyApplicationId": this.state.energyAppId,
-                "LeadLogId": this.state.Reference,
-                "Source": 'CC'
-            })
-            .then(response => {
-                this.setState({ Reference: response.data.Result });
-            })
-            .catch(error => {                                               
-                insertLog(3, "Media/SubmitApplication", error );                                               
-            })
-        }
+        // if (this.props.globalState.isMultiJourney) {
+        //     insertLog(1, "Thank_you Multi Submit", JSON.stringify(this.state));
+        //     axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
+        //     axios.post(process.env.REACT_APP_API + 'Media/SubmitApplication', {
+        //         "Title": this.state.Title,
+        //         "Firstname": this.state.Firstname,
+        //         "Surname": this.state.Lastname,
+        //         "Address1": this.state.Address1,
+        //         "Address2": this.state.Address2,
+        //         "Postcode": this.state.Postcode,
+        //         "HomePhone": this.state.HomePhone,
+        //         "Email": this.state.Email,
+        //         "SalesAgentId": this.state.SalesAgentId,
+        //         "CallcentreId": this.state.CallcentreId,
+        //         "MediaPackageId": this.state.MediaPackageId,
+        //         "EnergyApplicationId": this.state.energyAppId,
+        //         "LeadLogId": this.state.Reference,
+        //         "Source": 'CC'
+        //     })
+        //     .then(response => {
+        //         this.setState({ Reference: response.data.Result });
+        //     })
+        //     .catch(error => {                                               
+        //         insertLog(3, "Media/SubmitApplication", error );                                               
+        //     })
+        // }
         // If a BT journey - auto submit the outcome
         if (this.props.globalState.isBtJourney ) {
             insertLog(1, "Thank_you BT Submit", JSON.stringify(this.state));

@@ -123,6 +123,7 @@ class AppBroadband extends Component {
                 postcode = response.data.Addresses[i].Postcode
                 town = response.data.Addresses[i].City
                 county = response.data.Addresses[i].County
+                
                 if(response.data.Addresses[i].Address2 !== 'null') {
                   Address2 = response.data.Addresses[i].Address2
                 }
@@ -149,10 +150,12 @@ class AppBroadband extends Component {
             SortCode: response.data.SortCode,
             AccountNumber: response.data.AccountNumber,
             AccountName: response.data.AccountName,
-            BankName: response.data.BankName,
             TelephoneNumber: response.data.TelephoneNumber,
             EmailAddress: response.data.EmailAddress,
-            energyAppId: energyAppId
+            energyAppId: energyAppId,
+            SortCode: response.data.SortCode,
+            AccountNumber: response.data.AccountNumber,
+            AccountName: response.data.AccountName,
           },0)
         })
         window.location.hash = "/availability_checker"
