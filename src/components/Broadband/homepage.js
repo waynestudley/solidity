@@ -48,6 +48,7 @@ class Homepage extends Component {
 
         // If not BT get promotional packages
         if (!this.props.globalState.isBt) {
+            console.log(this.props.globalState.jwtAuth)
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.props.globalState.jwtAuth
             axios.post(process.env.REACT_APP_API + 'Media/GetPromotionalPackageList',
             { "source": thisSource })
