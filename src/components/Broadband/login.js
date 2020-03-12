@@ -96,12 +96,21 @@ class Login extends Component {
             if (parseInt(userType[i]) === 8) {
               this.props.setGlobalState(() => ({
                 isBt: true
-              }));
+              }))
+            } else if (parseInt(userType[i]) === 10) { // CHECK FOR TELESALES
+              this.props.setGlobalState(() => ({
+                journeyTheme: 'telesales',
+                // isBt: true,
+                // isWeb: true,
+            }))
             }
           }
           this.setState({ isSubmitted: false });
           this.props.history.push("/start");
+        
+
         } else {
+          console.log(">>>>>", response.data.SalesAgentId)
           this.setState({
             errorMessage: "Office/User doesn't have permission",
             isSubmitted: false

@@ -36,8 +36,6 @@ class AppBroadband extends Component {
   componentDidMount() {
     initLog();
     insertLog(1, "Init: Broadband", "SessionId:"+getSession() );
-    //console.log('componentDidMount Broadband')
-    //return ;
     let apiEndpointLogin = process.env.REACT_APP_API
     const urlParams = new URLSearchParams(window.location.search)
     const myParam = urlParams.get('theme')
@@ -73,8 +71,8 @@ class AppBroadband extends Component {
                     },0)
                 })
                 let userType = response.data.LoginSecurityGroup.split(",")
+
                 // CHECK FOR MULTI USER ROLE
-                //console.log(userType)
                 for (var i = 0; i < userType.length; ++i) {
                     if (parseInt(userType[i]) === 8) {
                         this.props.setGlobalState(() => ({
@@ -110,6 +108,7 @@ class AppBroadband extends Component {
           isMultiJourney: true,
           jwtAuth: token
       }))
+
       //axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
       apiEndpointLogin += 'Energy/GetApplicationDetail?appId=' + energyAppId
       axios.post(apiEndpointLogin)
@@ -175,36 +174,47 @@ class AppBroadband extends Component {
       apiEndpointLogin += 'auth/createtoken?username=bbwebuser&password=l0nd0n'
       axios.post(apiEndpointLogin)
       .then(response => {
-          this.props.setGlobalState(() => ({
-              jwtAuth: response.data
-          }))
-          window.location.hash = "/start"
-      })
-      .catch(err => {
-          insertLog(3, "Create Token failed", err );
-      })
-    } else if (myParam === 'telesales') {
-      insertLog(1, "myParam:"+ myParam, "" );
-      this.setState({ theme: myParam })  
-      apiEndpointLogin += 'auth/createtoken?username=bbwebuser&password=l0nd0n'
-      axios.post(apiEndpointLogin)
-      .then(response => {
-          this.props.setGlobalState(() => ({
-              journeyTheme: myParam,
-              isBt: true,
-              isWeb: true,
+          this.props.setGlobalState(() =>
+           ({
               jwtAuth: response.data
           }))
           db.open().then(async () => {
             await db.userAgent.put({
               SalesAgentId: '0',
               CallcentreId: '0',
-              Name: 'Telesales',
+              Name: 'Mex/SS',
               loginData: JSON.stringify(response.data)
             },0)
-        })
+          })
           window.location.hash = "/start"
       })
+      .catch(err => {
+          insertLog(3, "Create Token failed", err );
+      })
+    
+    //  ######### HANDLE TELESALES
+    // } else if (myParam === 'telesales') {
+    //   insertLog(1, "myParam:"+ myParam, "" );
+    //   this.setState({ theme: myParam })  
+    //   apiEndpointLogin += 'auth/createtoken?username=bbwebuser&password=l0nd0n'
+    //   axios.post(apiEndpointLogin)
+    //   .then(response => {
+    //       this.props.setGlobalState(() => ({
+    //           journeyTheme: myParam,
+    //           //isBt: true,
+    //           isWeb: true,
+    //           jwtAuth: response.data
+    //       }))
+    //       db.open().then(async () => {
+    //         await db.userAgent.put({
+    //           SalesAgentId: '0',
+    //           CallcentreId: '0',
+    //           Name: 'Telesales',
+    //           loginData: JSON.stringify(response.data)
+    //         },0)
+    //       })
+    //       window.location.hash = "/start"
+    //   })
       .catch(err => {
           console.log(err)
       })
@@ -220,7 +230,6 @@ class AppBroadband extends Component {
   }
 
   render() {
-    //console.log('Broadband render')
     const platform = { platform: "broadband_bt" }
     return (
       <Router>
